@@ -6,3 +6,4 @@
 
 [komentorivi](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
+Jee

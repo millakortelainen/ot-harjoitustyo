@@ -25,7 +25,8 @@ public class MaksukorttiTest {
     public void setUp() {
         kortti = new Maksukortti(10);
         edullisestiKortti = new Maksukortti(2.50);
-        maukkaastiKortti = new Maksukortti(4.0);
+        maukkaastiKortti = new Maksukortti(4.0
+        );
     }
 
     @Test

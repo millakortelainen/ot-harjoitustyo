@@ -1,4 +1,3 @@
-
 package com.mycompany.unicafe;
 
 public class Kassapaate {
@@ -34,6 +33,7 @@ public class Kassapaate {
     public boolean syoEdullisesti(Maksukortti kortti) {
         if (kortti.saldo() >= 240) {
             kortti.otaRahaa(240);
+//            this.kassassaRahaa = kassassaRahaa + 240;
             this.edulliset++;
             return true;
         } else {
@@ -44,6 +44,7 @@ public class Kassapaate {
     public boolean syoMaukkaasti(Maksukortti kortti) {
         if (kortti.saldo() >= 400) {
             kortti.otaRahaa(400);
+//            this.kassassaRahaa = kassassaRahaa + 400;
             this.maukkaat++;
             return true;
         } else {

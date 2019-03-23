@@ -30,6 +30,8 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <!-- nyyhky kyyhky -->
+                    <!--<argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>-->
                 </configuration>
                 <version>2.5</version>
             </plugin>
@@ -45,7 +47,16 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>  
+            </plugin> 
+            <!-- korjaa kaiken, rikkoo kaiken --> 
+            <!--            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.16</version>
+                <configuration>
+                    <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+                </configuration>
+            </plugin>-->
         </plugins>
 
     </build>

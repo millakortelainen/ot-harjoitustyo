@@ -12,7 +12,7 @@ Sovelluksella on kahden tyyppisiä käyttäjiä. Moderaattori käyttäjä voi li
 
 Ennen kirjautumista
    * Käyttäjä voi kirjautua sisään
-       .* Sisäänkirjautuminen tapahtuu käyttäjätunnuksella
+       - Sisäänkirjautuminen tapahtuu käyttäjätunnuksella
    * Käyttäjä voi luoda uuden tunnuksen
        **Tunnuksen tulee olla uniikki ja vähintään 3 merkkiä pitkä
        **Moderaattori tunnukset annetaan erikseen, niitä ei voi luoda

@@ -20,7 +20,7 @@ Ennen kirjautumista
 Kirjautumisen jälkeen
    * Käyttäjä:
        * Käyttäjä näkee listan mahdollisista aiheista
-          *Aiheita voi valita usean tai ei yhtään
+              * Aiheita voi valita usean tai ei yhtään
        * Käyttäjä voi arpoa aiheen projektityölle
        * Käyttäjä voi kirjautua ulos
 

@@ -18,13 +18,13 @@ Ennen kirjautumista
        - Moderaattori tunnukset annetaan erikseen, niitä ei voi luoda
 
 Kirjautumisen jälkeen
-   *Käyttäjä:
+   * Käyttäjä:
        - Käyttäjä näkee listan mahdollisista aiheista
-           + Aiheita voi valita usean tai ei yhtään
+           > Aiheita voi valita usean tai ei yhtään
        - Käyttäjä voi arpoa aiheen projektityölle
        - Käyttäjä voi kirjautua ulos
 
-   *Moderaattori:
+   * Moderaattori:
        - Moderaattori voi lisätä uuden projektiaiheen
        - Moderaattori voi poistaa aiheen.
        - Moderaattori voi kirjautua ulos. 

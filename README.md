@@ -1,9 +1,5 @@
-# Tämä on _projektin_  **README** tiedosto
+# Linkit
 
-## Viikko 1
+[määrittelydokumentti](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/maarittelydokumentti.md)
 
-[gitlog](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
-
-[komentorivi](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
-
-Jee
+[työaikakirjanpito](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/ty%C3%B6aikakirjanpito.md)

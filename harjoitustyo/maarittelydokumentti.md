@@ -19,7 +19,7 @@ Ennen kirjautumista
 
 Kirjautumisen jälkeen
    * Käyttäjä:
-       * Käyttäjä näkee listan mahdollisista aiheista
+       * Käyttäjä näkee listan mahdollisista aihealueista
        * Käyttäjä voi valita yhden tai usean aihealueen
        * Käyttäjä voi arpoa aiheen projektityölle
        * Käyttäjä voi kirjautua ulos
@@ -27,4 +27,11 @@ Kirjautumisen jälkeen
    * Moderaattori:
        * Moderaattori voi lisätä uuden projektiaiheen
        * Moderaattori voi poistaa aiheen.
+       * Moderaattori voi myös arpoa aiheen työlleen samallatavalla kuin käyttäjä
        * Moderaattori voi kirjautua ulos. 
+       
+       ## Kehitysideoita
+       
+       * Projektiaihetta arvottaessa voitaisiin kerätä enemmän mahdollisia toiveita projektia varten.
+       * Projektitöistä voitaisiin kerätä enemmän tietoa
+       * Käyttäjillä ja moderaattoreilla olisi salasanat

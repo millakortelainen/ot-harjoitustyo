@@ -53,6 +53,4 @@ public class ProjectDaoTest {
         assertNotNull(projectDaoTest);
     }
 
-    @Test
-    
 }

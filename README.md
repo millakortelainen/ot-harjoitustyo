@@ -1,5 +1,23 @@
-# Linkit
+# Raffle
 
-[määrittelydokumentti](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/maarittelydokumentti.md)
+Sovelluksella käyttäjä voi arpoa itselleen ohjelmistotekniikka-kurssin projektiaiheen.
 
-[työaikakirjanpito](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/ty%C3%B6aikakirjanpito.md)
+##Dokumentaatio
+
+[Määrittelydokumentti](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/maarittelydokumentti.md)
+
+[Työaikakirjanpito](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/ty%C3%B6aikakirjanpito.md)
+
+[Arkkitehtuurikuvaus](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/dokumentaatio/arkkitehtuuri.md)
+##Releaset
+
+##Komentoriviotiminnot
+
+###Testaus
+mvn test
+mvn jacoco:report
+###Suoritettavan jarin generointi
+###JavaDoc
+coming
+###Checkstyle
+ mvn jxr:jxr checkstyle:checkstyle

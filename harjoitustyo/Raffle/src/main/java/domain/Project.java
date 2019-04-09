@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package raffle;
+package domain;
 
 /**
  *
  * @author kortemil
  */
-public class Project {
+public class Project{
 
     private Integer id;
     private String subject;
@@ -23,7 +23,7 @@ public class Project {
         this.projectCategoryId = projectCategoryId;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

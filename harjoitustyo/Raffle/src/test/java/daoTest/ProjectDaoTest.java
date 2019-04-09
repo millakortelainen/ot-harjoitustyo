@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import domain.Database;
 
 /**
  *
@@ -20,34 +21,26 @@ import static org.junit.Assert.*;
 public class ProjectDaoTest {
 
     ProjectDao projectDaoTest;
+    Database db;
 
     public ProjectDaoTest() {
         projectDaoTest = new ProjectDao();
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
+        db = new Database();
     }
 
     @Before
-    public void setUp() {
-
+    public void setUp() throws Exception {
+        
+        
+//        userFile = testFolder.newFile("testfile_users.txt");  
+//        
+//        try (FileWriter file = new FileWriter(userFile.getAbsolutePath())) {
+//            file.write("testertester;Teppo Testaaja\n");
+//        }
+//        
+//        dao = new FileUserDao(userFile.getAbsolutePath());
     }
 
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
     @Test
     public void newProjectDaoIsCreated() {
         assertNotNull(projectDaoTest);

@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package raffle;
+package domain;
 
+import domain.ProjectCategory;
+import domain.Project;
+import dao.ProjectCategoryDao;
 import dao.ProjectDao;
 import java.sql.*;
 
@@ -14,18 +17,37 @@ import java.sql.*;
  */
 public class Database {
 
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:sqlite:projects.db");
-       
+    private boolean testing = false;
+
+    public Database(boolean testing) {
+        this.testing = testing;
     }
 
-    public Connection getTestConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:sqlite:test_projects.db");
+    public Database() {
+        this(false);
+    }
+
+    public Connection getConnection() throws SQLException {
+        if (testing) {
+            return DriverManager.getConnection("jdbc:sqlite:test_projects.db");
+        }
+        return DriverManager.getConnection("jdbc:sqlite:projects.db");
     }
 
     public void resetDatabase() throws SQLException {
         System.out.println("WARNING");
         System.out.println("YOU ARE DELETING WHOLE DATABASE");
+
+        String projectCategories = "Hyötyohjelmat\n"
+                + "Reaaliaikaiset pelit\n"
+                + "Vuoropohjaiset pelit\n"
+                + "Korttipelit";
+
+        String[] categories = projectCategories.split("\n");
+        ProjectCategoryDao categoryDao = new ProjectCategoryDao(this);
+        for (int i = 0; i < categories.length; i++) {
+            categoryDao.create(new ProjectCategory(i + 1, categories[i]));
+        }
 
         String hyotyohjelmat = "Aritmetiikan harjoittelua\n"
                 + "Tehtävägeneraattori, joka antaa käyttäjälle tehtävän sekä mallivastauksen (esim. matematiikkaa, fysiikkaa, kemiaa, ...)\n"
@@ -64,32 +86,41 @@ public class Database {
         String[] category2 = reaaliaikaisetPelit.split("\n");
         String[] category3 = vuoroPohjaisetPelit.split("\n");
         String[] category4 = korttipelit.split("\n");
-
-        ProjectDao pd = new ProjectDao();
+        int id = 1;
+        ProjectDao pd = new ProjectDao(this);
         for (int i = 0; i < category1.length; i++) {
-            pd.create(new Project(i, category1[i], "", 1));
+            pd.create(new Project(id, category1[i], "", 1));
+            id++;
         }
 
         for (int i = 0; i < category2.length; i++) {
-            pd.create(new Project(i, category2[i], "", 2));
+            pd.create(new Project(id, category2[i], "", 2));
+            id++;
         }
         for (int i = 0; i < category3.length; i++) {
-            pd.create(new Project(i, category3[i], "", 3));
+            pd.create(new Project(id, category3[i], "", 3));
+            id++;
         }
         for (int i = 0; i < category4.length; i++) {
-            pd.create(new Project(i, category4[i], "", 4));
+            pd.create(new Project(id, category4[i], "", 4));
+            id++;
         }
 
     }
 
-    public void resetTestDatabase() throws SQLException {
-        
-        
+    public void emptyDatabase() throws SQLException {
+        System.out.println("DELETING WHOLE DATABSE");
+        Statement stmt = this.getConnection().createStatement();
+        String sqlStatement = "DELETE FROM Project;"
+                + "DELETE FROM ProjectCategory;"
+                + "DELETE FROM User;";
+        String[] sqlStatements = sqlStatement.split("\n");
+        for (int i = 0; i < sqlStatements.length; i++) {
+            stmt.executeUpdate(sqlStatements[i]);
+        }
 
-    }
-
-    public void emptyTestDatabase() {
-
+        stmt.close();
+        this.getConnection().close();
     }
 
 }

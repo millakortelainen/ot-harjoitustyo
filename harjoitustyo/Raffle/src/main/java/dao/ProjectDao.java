@@ -8,8 +8,8 @@ package dao;
 import dao.Dao;
 import java.sql.*;
 import java.util.*;
-import raffle.Database;
-import raffle.Project;
+import domain.Database;
+import domain.Project;
 
 /**
  *
@@ -17,10 +17,14 @@ import raffle.Project;
  */
 public class ProjectDao implements Dao<Project, Integer> {
 
-    Database database;
+     Database database;
+
+    public ProjectDao(Database database) {
+        this.database = database;
+    }
 
     public ProjectDao() {
-        database = new Database();
+        this(new Database());
     }
 
     @Override
@@ -45,7 +49,6 @@ public class ProjectDao implements Dao<Project, Integer> {
         ResultSet rs = stmt.executeQuery();
 
         if (!rs.next()) {
-            System.out.println("omf");
             return null;
         }
 

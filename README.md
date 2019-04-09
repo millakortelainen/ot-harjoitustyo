@@ -16,11 +16,23 @@ coming
 ## Komentoriviotiminnot
 
 ### Testaus
+Testit suoritetaan komennolla
+
 mvn test
+
+Testikattavuusraportti luodaan komennolla
+
 mvn jacoco:report
+
+Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto target/site/jacoco/index.html
+
 ### Suoritettavan jarin generointi
 coming
 ### JavaDoc
 coming
 ### Checkstyle
+Tiedostoon checkstyle.xml määrittelemät tarkistukset suoritetaan komennolla
+
  mvn jxr:jxr checkstyle:checkstyle
+
+Mahdolliset virheilmoitukset selviävät avaamalla selaimella tiedosto target/site/checkstyle.html

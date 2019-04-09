@@ -2,22 +2,25 @@
 
 Sovelluksella käyttäjä voi arpoa itselleen ohjelmistotekniikka-kurssin projektiaiheen.
 
-##Dokumentaatio
+## Dokumentaatio
 
 [Määrittelydokumentti](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/maarittelydokumentti.md)
 
 [Työaikakirjanpito](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/ty%C3%B6aikakirjanpito.md)
 
 [Arkkitehtuurikuvaus](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/dokumentaatio/arkkitehtuuri.md)
-##Releaset
 
-##Komentoriviotiminnot
+## Releaset
+coming
 
-###Testaus
+## Komentoriviotiminnot
+
+### Testaus
 mvn test
 mvn jacoco:report
-###Suoritettavan jarin generointi
-###JavaDoc
+### Suoritettavan jarin generointi
 coming
-###Checkstyle
+### JavaDoc
+coming
+### Checkstyle
  mvn jxr:jxr checkstyle:checkstyle

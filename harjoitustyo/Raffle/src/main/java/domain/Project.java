@@ -9,7 +9,7 @@ package domain;
  *
  * @author kortemil
  */
-public class Project{
+public class Project {
 
     private Integer id;
     private String subject;

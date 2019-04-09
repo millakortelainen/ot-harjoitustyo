@@ -12,4 +12,5 @@ Työaikakirjanpito
 | 5.4.|1|Tietokannan testaaminen|
 | 7.4|4|Tietokannan testaaminen ja luominen jatkuu|
 | 8.4.|2|pom.xml ja käyttäjien lisääminen|
-|9.4.||Käyttäjien lisääminen|
+|9.4.|5 |Käyttäjien lisääminen, arkkitehtuuri dokumentti,|
+Yhteensä: 35 h

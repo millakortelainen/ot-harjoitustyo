@@ -9,7 +9,7 @@ package domain;
  *
  * @author kortemil
  */
-public class ProjectCategory{
+public class ProjectCategory {
 
     private int id;
     private String category;

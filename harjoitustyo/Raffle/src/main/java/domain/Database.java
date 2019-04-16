@@ -17,14 +17,16 @@ import java.sql.*;
  */
 public class Database {
 
-    private boolean testing = false;
+    private boolean testing;
 
-    public Database(boolean testing) {
+    public Database(boolean testing) throws SQLException {
         this.testing = testing;
+        this.initTables();
     }
 
-    public Database() {
+    public Database() throws SQLException {
         this(false);
+        this.initTables();
     }
 
     public Connection getConnection() throws SQLException {
@@ -34,9 +36,29 @@ public class Database {
         return DriverManager.getConnection("jdbc:sqlite:projects.db");
     }
 
+    public void initTables() throws SQLException {
+
+        Statement stmt = this.getConnection().createStatement();
+
+        String sqlStatement = "CREATE TABLE IF NOT EXISTS  user (id integer primary key,"
+                + " username varchar(20), isModerator boolean);";
+        String sqlStatement2 = "CREATE TABLE IF NOT EXISTS project (id integer primary key, subject "
+                + "varchar(50), description varchar(350), projectCategory_id integer,"
+                + " foreign key(projectCategory_id) references projectCategory(id));";
+        String sqlStatement3 = "CREATE TABLE IF NOT EXISTS projectCategory (id integer primary key, "
+                + "category varchar(100));";
+        stmt.executeUpdate(sqlStatement);
+        stmt.executeUpdate(sqlStatement2);
+        stmt.executeUpdate(sqlStatement3);
+        this.resetDatabase();
+        stmt.close();
+        this.getConnection().close();
+
+    }
+
     public void resetDatabase() throws SQLException {
-        System.out.println("WARNING");
-        System.out.println("YOU ARE DELETING WHOLE DATABASE");
+//        System.out.println("WARNING");
+//        System.out.println("YOU ARE DELETING WHOLE DATABASE");
 
         String projectCategories = "Hyötyohjelmat\n"
                 + "Reaaliaikaiset pelit\n"
@@ -109,15 +131,12 @@ public class Database {
     }
 
     public void emptyDatabase() throws SQLException {
-        System.out.println("DELETING WHOLE DATABSE");
+//        System.out.println("DELETING WHOLE DATABSE");
         Statement stmt = this.getConnection().createStatement();
         String sqlStatement = "DELETE FROM Project;"
                 + "DELETE FROM ProjectCategory;"
                 + "DELETE FROM User;";
-        String[] sqlStatements = sqlStatement.split("\n");
-        for (int i = 0; i < sqlStatements.length; i++) {
-            stmt.executeUpdate(sqlStatements[i]);
-        }
+        stmt.executeUpdate(sqlStatement);
 
         stmt.close();
         this.getConnection().close();

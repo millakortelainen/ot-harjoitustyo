@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package raffleTest;
+package domainTest;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,13 +24,14 @@ public class DatabaseTest {
 
     Database database;
 
-    public DatabaseTest() {
+    public DatabaseTest() throws SQLException {
         database = new Database(true);
     }
 
     @Test
     public void getConnectionTest() throws SQLException {
-        Connection connection = database.getConnection();
+        Database realDatabase = new Database();
+        Connection connection = realDatabase.getConnection();
         assertNotNull(connection);
     }
 
@@ -38,6 +39,42 @@ public class DatabaseTest {
     public void getTestConnectionTest() throws SQLException {
         Connection connection = database.getConnection();
         assertNotNull(connection);
+    }
+
+    @Test
+    public void initTablesTest() throws SQLException {
+        database.emptyDatabase();
+        database.initTables();
+
+        String sqlStmtProject = "SELECT * FROM Project";
+        String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
+        String sqlStmtUser = "SELECT * FROM User";
+
+        PreparedStatement stmt = database.getConnection().prepareStatement(sqlStmtProject);
+        PreparedStatement stmt2 = database.getConnection().prepareStatement(sqlStmtProjectCategory);
+        PreparedStatement stmt3 = database.getConnection().prepareStatement(sqlStmtUser);
+        ResultSet rs = stmt.executeQuery();
+        ResultSet rs2 = stmt2.executeQuery();
+        ResultSet rs3 = stmt3.executeQuery();
+
+        List<Integer> existingStuff = new ArrayList<>();
+
+        while (rs.next()) {
+            existingStuff.add(rs.getInt("id"));
+        }
+        while (rs2.next()) {
+            existingStuff.add(rs2.getInt("id"));
+        }
+        while (rs3.next()) {
+            existingStuff.add(rs3.getInt("id"));
+        }
+
+        stmt.close();
+        rs.close();
+        rs2.close();
+        rs3.close();
+        assertFalse(existingStuff.isEmpty());
+
     }
 
     @Test
@@ -60,10 +97,10 @@ public class DatabaseTest {
             existingStuff.add(rs.getInt("id"));
         }
         while (rs2.next()) {
-            existingStuff.add(rs.getInt("id"));
+            existingStuff.add(rs2.getInt("id"));
         }
         while (rs3.next()) {
-            existingStuff.add(rs.getInt("id"));
+            existingStuff.add(rs3.getInt("id"));
         }
 
         stmt.close();
@@ -75,7 +112,9 @@ public class DatabaseTest {
 
     @Test
     public void resetDatabase() throws SQLException {
+        database.emptyDatabase();
         database.resetDatabase();
+
         String sqlStmtProject = "SELECT * FROM Project";
         String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
         String sqlStmtUser = "SELECT * FROM User";
@@ -99,45 +138,14 @@ public class DatabaseTest {
         while (rs3.next()) {
             existingStuff3.add(rs3.getString("username"));
         }
-
+//        System.out.println(existingStuff.hashCode());
         stmt.close();
         rs.close();
         rs2.close();
         rs3.close();
-        assertEquals(existingStuff.toString(), "[Aritmetiikan harjoittelua, "
-                + "Tehtävägeneraattori, joka antaa käyttäjälle tehtävän sekä mallivastauksen (esim. matematiikkaa, fysiikkaa, kemiaa, ...), "
-                + "Opintojen seurantajärjestelmä, "
-                + "Telegram- tai Slack-botti, "
-                + "Code Snippet Manageri, "
-                + "Laskin, funktiolaskin, graafinen laskin, "
-                + "Budjetointisovellus, "
-                + "Opintojen seurantasovellus, "
-                + "HTML WYSIWYG-editor (What you see is what you get), "
-                + "Reaaliaikaiset pelit, "
-                + "Tetris, "
-                + "Pong, "
-                + "Pacman, "
-                + "Tower Defence, "
-                + "Asteroids, "
-                + "Space Invaders, "
-                + "Yksinkertainen tasohyppypeli, esimerkiksi The Impossible Game, "
-                + "Tammi, "
-                + "Yatzy, "
-                + "Miinaharava, "
-                + "Laivanupotus, "
-                + "Yksinkertainen roolipeli tai luolastoseikkailu, "
-                + "Sudoku, "
-                + "Muistipeli, "
-                + "Ristinolla (mielivaltaisen kokoisella ruudukolla?), "
-                + "En Garde, "
-                + "Pasianssi, "
-                + "UNO, Texas Hold'em]");
-        assertEquals(existingStuff2.toString(), "[Hyötyohjelmat, "
-                + "Reaaliaikaiset pelit, "
-                + "Vuoropohjaiset pelit, "
-                + "Korttipelit]");
-
-        assertEquals(existingStuff3.toString(), "[]");
+        assertEquals(29, existingStuff.size());
+        assertEquals(4, existingStuff2.size());
+        assertEquals(0, existingStuff3.size());
 
     }
 

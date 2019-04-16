@@ -19,26 +19,43 @@ import domain.*;
 public class RaffleService {
 
     UserDao userDao;
-    UserService userService = new UserService();
+    UserService userService;
     ProjectService projectService;
     ProjectDao projectDao;
+    ProjectCategoryDao projectCategoryDao;
+    ProjectCategoryService projectCategoryService;
 
-    public RaffleService(UserDao userDao, ProjectDao projectDao) {
+    public RaffleService(UserDao userDao, ProjectDao projectDao, ProjectCategoryDao projectCategoryDao) {
         this.userDao = userDao;
         this.projectDao = projectDao;
         this.projectService = new ProjectService();
+        this.userService = new UserService(userDao);
+        this.projectCategoryDao = projectCategoryDao;
+        this.projectCategoryService = new ProjectCategoryService();
+    }
+
+    public boolean userExist(String username) throws SQLException {
+        List<String> usernames = userService.usernames(userDao.list());
+        return usernames.contains(username);
     }
 
     public void createNewUser(String username) throws SQLException {
-
         if (userService.usernameIsAvailable(userService.usernames(userDao.list()), username)) {
             userService.addNewUser(new User(userService.nextId(userDao.list()), username, false));
         }
 
     }
 
-    public Project getRandomProject() throws SQLException {
+    public Project getRandomProject(String projectCategory) throws SQLException {
         return projectService.getRandomProject(projectDao.list());
+    }
+
+    public void selectProjectCategory() {
+
+    }
+
+    public ArrayList<String> projectCategories() throws SQLException {
+        return projectCategoryService.projectCategories(projectCategoryDao.list());
     }
 
 }

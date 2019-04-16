@@ -5,10 +5,25 @@
  */
 package service;
 
+import domain.ProjectCategory;
+import java.util.*;
+
 /**
  *
  * @author kortemil
  */
 public class ProjectCategoryService {
-    
+
+    public ArrayList<String> projectCategories(List<ProjectCategory> list) {
+
+        ArrayList<String> projectCategories = new ArrayList<>();
+
+        for (ProjectCategory projectCategory : list) {
+            projectCategories.add(projectCategory.getCategory());
+        }
+
+        return projectCategories;
+
+    }
+
 }

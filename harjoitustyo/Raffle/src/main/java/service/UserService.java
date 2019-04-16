@@ -11,8 +11,8 @@ public class UserService {
 
     UserDao userDao;
 
-    public UserService() {
-        this.userDao = new UserDao();
+    public UserService(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public void addNewUser(User user) throws SQLException {

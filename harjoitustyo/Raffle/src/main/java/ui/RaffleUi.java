@@ -5,6 +5,7 @@
  */
 package ui;
 
+import dao.ProjectCategoryDao;
 import service.RaffleService;
 import dao.ProjectDao;
 import dao.UserDao;
@@ -18,11 +19,16 @@ import javafx.stage.Stage;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -38,8 +44,9 @@ public class RaffleUi extends Application {
 
     @Override
     public void init() throws Exception {
-
-        raffleService = new RaffleService(new UserDao(), new ProjectDao());
+        raffleService = new RaffleService(new UserDao(), new ProjectDao(), new ProjectCategoryDao());
+   
+    
     }
 
     @Override
@@ -50,16 +57,16 @@ public class RaffleUi extends Application {
 
         //1. view
         Label logInText = new Label("Kirjoita käyttäjätunnus ja paina kirjaudu");
+        Label logInErrorText = new Label("");
         TextField usernameField = new TextField();
         Button logInBtn = new Button("Kirjaudu");
         Button newUserBtn = new Button("Luo uusi käyttäjä");
-        Label errorText = new Label("");
         GridPane firstWindowLayout = new GridPane();
         firstWindowLayout.add(logInText, 0, 0);
         firstWindowLayout.add(usernameField, 0, 1);
         firstWindowLayout.add(logInBtn, 0, 2);
         firstWindowLayout.add(newUserBtn, 0, 3);
-        firstWindowLayout.add(errorText, 0, 4);
+        firstWindowLayout.add(logInErrorText, 0, 4);
         firstWindowLayout.setPrefSize(widthOfWindow, hightOfWindow);
         firstWindowLayout.setAlignment(Pos.CENTER);
         firstWindowLayout.setVgap(10);
@@ -70,17 +77,25 @@ public class RaffleUi extends Application {
         //creating new user -view
         Label newUserText = new Label("Anna käyttäjänimi");
         TextField username = new TextField();
+        Label newUserErrorText = new Label("");
         Button createNewUserBtn = new Button("Luo käyttäjä");
         GridPane createNewUserLayout = new GridPane();
         createNewUserLayout.setPrefSize(widthOfWindow, hightOfWindow);
         createNewUserLayout.add(newUserText, 0, 0);
         createNewUserLayout.add(username, 0, 1);
         createNewUserLayout.add(createNewUserBtn, 0, 2);
+        createNewUserLayout.add(newUserErrorText, 0, 3);
         createNewUserLayout.setAlignment(Pos.CENTER);
         Scene createNewUserWindow = new Scene(createNewUserLayout);
 
         //user has logged in view
         Label welcome = new Label("Tervetuloa");
+        Label selectSubject = new Label("Minkä projektiaiheen haluat?");
+
+        ObservableList<String> options
+                = FXCollections.observableArrayList(raffleService.projectCategories());
+        ComboBox<String> comboBox = new ComboBox(options);
+
         Label project = new Label("");
         Button button = new Button("Arvo projektiaihe");
         GridPane userHasLoggedInLayout = new GridPane();
@@ -88,6 +103,7 @@ public class RaffleUi extends Application {
         userHasLoggedInLayout.add(welcome, 0, 0);
         userHasLoggedInLayout.add(project, 0, 1);
         userHasLoggedInLayout.add(button, 0, 2);
+        userHasLoggedInLayout.add(comboBox, 0, 3);
         userHasLoggedInLayout.setAlignment(Pos.CENTER);
         Scene userHasLoggedInWindow = new Scene(userHasLoggedInLayout);
 
@@ -99,31 +115,39 @@ public class RaffleUi extends Application {
         //from create user window to first window
         createNewUserBtn.setOnAction((event) -> {
             try {
-                raffleService.createNewUser(username.getText());
-//              if () {
-//              virheteksti.setText("Tuntematon salasana!");
-//              return;
-//        }
+                if (raffleService.userExist(username.getText())) {
+                    newUserErrorText.setText("Käyttäjänimi on jo käytössä");
+                } else {
+                    raffleService.createNewUser(username.getText());
+                    window.setScene(firstWindow);
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            window.setScene(firstWindow);
         }
         );
 
         //from first window to user has logged in window
-        logInBtn.setOnAction(
-                (event) -> {
+        //  logging in
+        logInBtn.setOnAction((event) -> {
+            try {
+                if (raffleService.userExist(usernameField.getText())) {
                     window.setScene(userHasLoggedInWindow);
+                } else {
+                    logInErrorText.setText("Väärä käyttäjätunnus");
                 }
+            } catch (SQLException ex) {
+                Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         );
 
-        //raffle new project
+        //get random new project
         button.setOnAction(e
                 -> {
             try {
-                project.setText(raffleService.getRandomProject().toString());
+                project.setText(raffleService.getRandomProject(comboBox.getValue()).toString());
             } catch (SQLException ex) {
                 Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
             }

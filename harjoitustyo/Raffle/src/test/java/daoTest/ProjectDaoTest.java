@@ -13,6 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import domain.Database;
+import domain.Project;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  *
@@ -24,26 +27,42 @@ public class ProjectDaoTest {
     Database db;
 
     public ProjectDaoTest() {
-        projectDaoTest = new ProjectDao();
-        db = new Database();
+        db = new Database(true);
+        projectDaoTest = new ProjectDao(db);
     }
 
     @Before
-    public void setUp() throws Exception {
-        
-        
-//        userFile = testFolder.newFile("testfile_users.txt");  
-//        
-//        try (FileWriter file = new FileWriter(userFile.getAbsolutePath())) {
-//            file.write("testertester;Teppo Testaaja\n");
-//        }
-//        
-//        dao = new FileUserDao(userFile.getAbsolutePath());
+    public void setUp() throws SQLException {
+        db.emptyDatabase();
     }
 
     @Test
     public void newProjectDaoIsCreated() {
         assertNotNull(projectDaoTest);
+    }
+
+    @Test
+    public void newProjectIsAdded() throws SQLException {
+        Project project = new Project(1, "Test Project", "Description of test project", 1);
+        projectDaoTest.create(project);
+        Project readProject = projectDaoTest.read(1);
+        assertEquals(project, readProject);
+    }
+
+    @Test
+    public void projectsAreListed() throws SQLException {
+        for (int i = 1; i <= 5; i++) {
+            projectDaoTest.create(new Project(i, "Test Project", "Description of test project", 1));
+        }
+        List<Project> list = projectDaoTest.list();
+
+        assertEquals(5, list.size());
+    }
+
+    @Test
+    public void notAddedUserIsNotFound() throws SQLException {
+        Project project = new Project(1, "subject of project", "description of project", 1);
+        assertEquals(null, projectDaoTest.read(1));
     }
 
 }

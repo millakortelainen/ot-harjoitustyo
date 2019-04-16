@@ -9,7 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import domain.Database;
+import domain.Project;
 import domain.ProjectCategory;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -29,7 +32,7 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
 
     @Override
     public void create(ProjectCategory category) throws SQLException {
-  PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO projectCategory"
+        PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO projectCategory"
                 + " (category)"
                 + " VALUES (?)");
         stmt.setString(1, category.getCategory());
@@ -40,7 +43,22 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
 
     @Override
     public ProjectCategory read(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM projectCategory WHERE id = ?");
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+
+        if (!rs.next()) {
+            return null;
+        }
+
+        ProjectCategory pc = new ProjectCategory(rs.getInt("id"),
+                rs.getString("category"));
+
+        stmt.close();
+        rs.close();
+        database.getConnection().close();
+
+        return pc;
     }
 
     @Override
@@ -55,7 +73,19 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
 
     @Override
     public List<ProjectCategory> list() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM ProjectCategory");
+        ResultSet rs = stmt.executeQuery();
+
+        List<ProjectCategory> projectCategories = new ArrayList<>();
+
+        while (rs.next()) {
+            projectCategories.add(this.read(rs.getInt("id")));
+        }
+
+        stmt.close();
+        rs.close();
+        database.getConnection().close();
+        return projectCategories;
     }
 
 }

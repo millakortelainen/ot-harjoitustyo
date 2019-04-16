@@ -5,7 +5,9 @@
  */
 package service;
 
+import dao.ProjectCategoryDao;
 import domain.ProjectCategory;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -13,6 +15,14 @@ import java.util.*;
  * @author kortemil
  */
 public class ProjectCategoryService {
+
+    ProjectCategoryDao projectCategoryDao;
+
+    public ProjectCategoryService(ProjectCategoryDao projectCategoryDao) {
+        this.projectCategoryDao = projectCategoryDao;
+    }
+
+   
 
     public ArrayList<String> projectCategories(List<ProjectCategory> list) {
 
@@ -24,6 +34,16 @@ public class ProjectCategoryService {
 
         return projectCategories;
 
+    }
+
+    public ProjectCategory getProjectCategory(String projectCategory) throws SQLException {
+        List<ProjectCategory> projectCategories = projectCategoryDao.list();
+        for (ProjectCategory pc : projectCategories) {
+            if (pc.getCategory().equals(projectCategory)) {
+                return pc;
+            }
+        }
+        return null;
     }
 
 }

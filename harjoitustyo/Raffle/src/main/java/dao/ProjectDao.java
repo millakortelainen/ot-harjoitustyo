@@ -17,13 +17,13 @@ import domain.Project;
  */
 public class ProjectDao implements Dao<Project, Integer> {
 
-     Database database;
+    Database database;
 
     public ProjectDao(Database database) {
         this.database = database;
     }
 
-    public ProjectDao() {
+    public ProjectDao() throws SQLException {
         this(new Database());
     }
 

@@ -26,7 +26,7 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
         this.database = database;
     }
 
-    public ProjectCategoryDao() {
+    public ProjectCategoryDao() throws SQLException {
         this(new Database());
     }
 

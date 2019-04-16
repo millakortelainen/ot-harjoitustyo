@@ -45,8 +45,7 @@ public class RaffleUi extends Application {
     @Override
     public void init() throws Exception {
         raffleService = new RaffleService(new UserDao(), new ProjectDao(), new ProjectCategoryDao());
-   
-    
+
     }
 
     @Override
@@ -94,6 +93,7 @@ public class RaffleUi extends Application {
 
         ObservableList<String> options
                 = FXCollections.observableArrayList(raffleService.projectCategories());
+        options.add("Kaikki");
         ComboBox<String> comboBox = new ComboBox(options);
 
         Label project = new Label("");
@@ -101,9 +101,10 @@ public class RaffleUi extends Application {
         GridPane userHasLoggedInLayout = new GridPane();
         userHasLoggedInLayout.setPrefSize(widthOfWindow, hightOfWindow);
         userHasLoggedInLayout.add(welcome, 0, 0);
-        userHasLoggedInLayout.add(project, 0, 1);
-        userHasLoggedInLayout.add(button, 0, 2);
-        userHasLoggedInLayout.add(comboBox, 0, 3);
+        userHasLoggedInLayout.add(project, 0, 4);
+        userHasLoggedInLayout.add(selectSubject, 0, 1);
+        userHasLoggedInLayout.add(button, 0, 3);
+        userHasLoggedInLayout.add(comboBox, 0, 2);
         userHasLoggedInLayout.setAlignment(Pos.CENTER);
         Scene userHasLoggedInWindow = new Scene(userHasLoggedInLayout);
 
@@ -124,9 +125,7 @@ public class RaffleUi extends Application {
             } catch (SQLException ex) {
                 Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        }
-        );
+        });
 
         //from first window to user has logged in window
         //  logging in
@@ -140,19 +139,16 @@ public class RaffleUi extends Application {
             } catch (SQLException ex) {
                 Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        );
+        });
 
         //get random new project
-        button.setOnAction(e
-                -> {
+        button.setOnAction((event) -> {
             try {
                 project.setText(raffleService.getRandomProject(comboBox.getValue()).toString());
             } catch (SQLException ex) {
                 Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        );
+        });
 
         window.setScene(firstWindow);
         window.show();

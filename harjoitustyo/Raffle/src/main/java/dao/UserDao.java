@@ -16,7 +16,7 @@ public class UserDao implements Dao<User, Integer> {
         this.database = database;
     }
 
-    public UserDao() {
+    public UserDao() throws SQLException {
         this(new Database());
     }
 

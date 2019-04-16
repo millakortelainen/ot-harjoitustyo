@@ -40,7 +40,7 @@ public class RaffleServiceTest {
         projectDao = new ProjectDao(database);
         userService = new UserService(userDao);
         projectCategoryDao = new ProjectCategoryDao(database);
-        projectCategoryService = new ProjectCategoryService();
+        projectCategoryService = new ProjectCategoryService(projectCategoryDao);
         raffleService = new RaffleService(userDao, projectDao, projectCategoryDao);
     }
 

@@ -26,7 +26,6 @@ public class Database {
 
     public Database() throws SQLException {
         this(false);
-        this.initTables();
     }
 
     public Connection getConnection() throws SQLException {
@@ -50,20 +49,25 @@ public class Database {
         stmt.executeUpdate(sqlStatement);
         stmt.executeUpdate(sqlStatement2);
         stmt.executeUpdate(sqlStatement3);
-        this.resetDatabase();
+
+        ProjectCategoryDao categoryDao = new ProjectCategoryDao(this);
+        ProjectDao pd = new ProjectDao(this);
+
+        if (categoryDao.list().isEmpty() && pd.list().isEmpty()) {
+            this.resetDatabase();
+        }
+
         stmt.close();
         this.getConnection().close();
 
     }
 
     public void resetDatabase() throws SQLException {
-//        System.out.println("WARNING");
-//        System.out.println("YOU ARE DELETING WHOLE DATABASE");
 
-        String projectCategories = "Hyötyohjelmat\n"
-                + "Reaaliaikaiset pelit\n"
-                + "Vuoropohjaiset pelit\n"
-                + "Korttipelit";
+        String projectCategories = "Hyötyohjelma\n"
+                + "Reaaliaikainen peli\n"
+                + "Vuoropohjainen peli\n"
+                + "Korttipeli";
 
         String[] categories = projectCategories.split("\n");
         ProjectCategoryDao categoryDao = new ProjectCategoryDao(this);
@@ -71,33 +75,37 @@ public class Database {
             categoryDao.create(new ProjectCategory(i + 1, categories[i]));
         }
 
-        String hyotyohjelmat = "Aritmetiikan harjoittelua\n"
-                + "Tehtävägeneraattori, joka antaa käyttäjälle tehtävän sekä mallivastauksen (esim. matematiikkaa, fysiikkaa, kemiaa, ...)\n"
+        String hyotyohjelmat = "Tehtävägeneraattori, matematiikka \n"
+                + "Tehtävägeneraattori fysiikka \n"
+                + "Tehtävägeneraattori kemia\n"
                 + "Opintojen seurantajärjestelmä\n"
-                + "Telegram- tai Slack-botti\n"
+                + "Telegrambotti\n"
+                + "Slackbotti\n"
                 + "Code Snippet Manageri\n"
-                + "Laskin, funktiolaskin, graafinen laskin\n"
+                + "Laskin\n"
+                + "Funktiolaskin\n"
+                + "Graafinen laskin\n"
                 + "Budjetointisovellus\n"
                 + "Opintojen seurantasovellus\n"
                 + "HTML WYSIWYG-editor (What you see is what you get)";
 
-        String reaaliaikaisetPelit = "Reaaliaikaiset pelit\n"
-                + "Tetris\n"
-                + "Pong\n"
+        String reaaliaikaisetPelit = "Tetris\n"
+                + "Ping Pong\n"
                 + "Pacman\n"
                 + "Tower Defence\n"
                 + "Asteroids\n"
                 + "Space Invaders\n"
-                + "Yksinkertainen tasohyppypeli, esimerkiksi The Impossible Game";
+                + "Yksinkertainen tasohyppypeli";
 
         String vuoroPohjaisetPelit = "Tammi\n"
                 + "Yatzy\n"
                 + "Miinaharava\n"
                 + "Laivanupotus\n"
-                + "Yksinkertainen roolipeli tai luolastoseikkailu\n"
+                + "Yksinkertainen roolipeli\n"
+                + "Yksinkertainen luolastoseikkailupeli\n"
                 + "Sudoku\n"
                 + "Muistipeli\n"
-                + "Ristinolla (mielivaltaisen kokoisella ruudukolla?)";
+                + "Ristinolla";
 
         String korttipelit = "En Garde\n"
                 + "Pasianssi\n"
@@ -130,8 +138,18 @@ public class Database {
 
     }
 
+    public void removeTables() throws SQLException {
+        Statement stmt = this.getConnection().createStatement();
+        String sqlStatement = "DROP TABLE IF EXISTS Project;"
+                + "DROP TABLE IF EXISTS ProjectCategory;"
+                + "DROP TABLE IF EXISTS User;";
+        stmt.executeUpdate(sqlStatement);
+
+        stmt.close();
+        this.getConnection().close();
+    }
+
     public void emptyDatabase() throws SQLException {
-//        System.out.println("DELETING WHOLE DATABSE");
         Statement stmt = this.getConnection().createStatement();
         String sqlStatement = "DELETE FROM Project;"
                 + "DELETE FROM ProjectCategory;"

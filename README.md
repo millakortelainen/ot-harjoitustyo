@@ -27,7 +27,12 @@ mvn jacoco:report
 Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto target/site/jacoco/index.html
 
 ### Suoritettavan jarin generointi
-coming
+Komento
+
+mvn package
+
+generoi hakemistoon target suoritettavan jar-tiedoston Raffle-1.0-SNAPSHOT.jar
+
 ### JavaDoc
 coming
 ### Checkstyle

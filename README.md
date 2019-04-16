@@ -11,7 +11,7 @@ Sovelluksella käyttäjä voi arpoa itselleen ohjelmistotekniikka-kurssin projek
 [Arkkitehtuurikuvaus](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/dokumentaatio/arkkitehtuuri.md)
 
 ## Releaset
-coming
+[Viikko 5](https://github.com/millakortelainen/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Komentoriviotiminnot
 

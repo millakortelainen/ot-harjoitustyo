@@ -26,7 +26,7 @@ public class ProjectDaoTest {
     ProjectDao projectDaoTest;
     Database db;
 
-    public ProjectDaoTest() {
+    public ProjectDaoTest() throws SQLException {
         db = new Database(true);
         projectDaoTest = new ProjectDao(db);
     }

@@ -143,7 +143,7 @@ public class DatabaseTest {
         rs.close();
         rs2.close();
         rs3.close();
-        assertEquals(29, existingStuff.size());
+        assertEquals(33, existingStuff.size());
         assertEquals(4, existingStuff2.size());
         assertEquals(0, existingStuff3.size());
 

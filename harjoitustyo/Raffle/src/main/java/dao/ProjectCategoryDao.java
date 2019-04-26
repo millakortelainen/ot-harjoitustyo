@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
 
-    Database database;
+    private Database database;
 
     public ProjectCategoryDao(Database database) {
         this.database = database;

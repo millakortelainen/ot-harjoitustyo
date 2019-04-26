@@ -65,7 +65,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void createUserDaoWithEmptyConstuctor() {
+    public void createUserDaoWithEmptyConstuctor() throws SQLException {
         UserDao userDao = new UserDao();
         assertNotNull(userDao);
     }

@@ -16,15 +16,39 @@ import java.util.*;
  */
 public class ProjectCategoryService {
 
-    ProjectCategoryDao projectCategoryDao;
+    private ProjectCategoryDao projectCategoryDao;
 
+    /**
+     * Konstruktori
+     *
+     * @param projectCategoryDao
+     */
     public ProjectCategoryService(ProjectCategoryDao projectCategoryDao) {
         this.projectCategoryDao = projectCategoryDao;
     }
 
-   
+    /**
+     * Palauttaa parametrina annetun merkkijonolistan projektikategoria listana.
+     *
+     * @param categories merkkijono lista
+     * @return projektikategoria lista
+     * @throws SQLException
+     */
+    public List<ProjectCategory> stringListToProjectCategoryList(List<String> categories) throws SQLException {
+        List<ProjectCategory> projectCategories = new ArrayList<>();
+        for (String category : categories) {
+            projectCategories.add(this.getProjectCategoryFromString(category));
+        }
+        return projectCategories;
+    }
 
-    public ArrayList<String> projectCategories(List<ProjectCategory> list) {
+    /**
+     * Palauttaa projektikategoria listan merkkijonolistana
+     *
+     * @param list lista projektikategorioista
+     * @return projektikategoriat merkkijonoina
+     */
+    public ArrayList<String> projectCategoriesAsString(List<ProjectCategory> list) {
 
         ArrayList<String> projectCategories = new ArrayList<>();
 
@@ -36,7 +60,14 @@ public class ProjectCategoryService {
 
     }
 
-    public ProjectCategory getProjectCategory(String projectCategory) throws SQLException {
+    /**
+     * Hakee merkkijono projektikategoriaa vastaavan projektikategorian
+     *
+     * @param projectCategory projektikategoria merkkijonona
+     * @return palautettava olemassa oleva projektikategoria
+     * @throws SQLException
+     */
+    public ProjectCategory getProjectCategoryFromString(String projectCategory) throws SQLException {
         List<ProjectCategory> projectCategories = projectCategoryDao.list();
         for (ProjectCategory pc : projectCategories) {
             if (pc.getCategory().equals(projectCategory)) {
@@ -44,6 +75,20 @@ public class ProjectCategoryService {
             }
         }
         return null;
+    }
+
+    /**
+     * Listaa projektikategorioiden id-numerot.
+     *
+     * @param projectCategories lista projektikategorioista
+     * @return lista projektikategorioiden id-numeroista
+     */
+    public List<Integer> getCategoriesIdList(List<ProjectCategory> projectCategories) {
+        List<Integer> categoryId = new ArrayList<>();
+        for (ProjectCategory pc : projectCategories) {
+            categoryId.add(pc.getId());
+        }
+        return categoryId;
     }
 
 }

@@ -18,6 +18,7 @@ public class Project {
     private String description;
     private Integer projectCategoryId;
 
+    
     public Project(Integer id, String subject, String description, Integer projectCategoryId) {
         this.id = id;
         this.subject = subject;

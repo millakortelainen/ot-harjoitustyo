@@ -17,49 +17,74 @@ import domain.*;
  * @author kortemil
  */
 public class RaffleService {
-    
-    UserDao userDao;
-    UserService userService;
-    ProjectService projectService;
-    ProjectDao projectDao;
-    ProjectCategoryDao projectCategoryDao;
-    ProjectCategoryService projectCategoryService;
-    
+
+    private UserDao userDao;
+    private UserService userService;
+    private ProjectService projectService;
+    private ProjectDao projectDao;
+    private ProjectCategoryDao projectCategoryDao;
+    private ProjectCategoryService projectCategoryService;
+
+    /**
+     * Konstruktori.
+     *
+     * @param userDao
+     * @param projectDao
+     * @param projectCategoryDao
+     */
     public RaffleService(UserDao userDao, ProjectDao projectDao, ProjectCategoryDao projectCategoryDao) {
         this.userDao = userDao;
         this.projectDao = projectDao;
-        this.projectService = new ProjectService();
         this.userService = new UserService(userDao);
         this.projectCategoryDao = projectCategoryDao;
         this.projectCategoryService = new ProjectCategoryService(projectCategoryDao);
+        this.projectService = new ProjectService(projectDao, projectCategoryService);
     }
-    
+
+    /**
+     * Tarkistaa onko käyttäjänimeä vastaama käyttäjä olemassa.
+     *
+     * @param username haettava käyttäjänimi
+     * @return totuusarvo sen mukaan onko käyttäjänimi käytössä
+     * @throws SQLException
+     */
     public boolean userExist(String username) throws SQLException {
         List<String> usernames = userService.usernames(userDao.list());
         return usernames.contains(username);
     }
-    
+
+    /**
+     * Luo uuden käyttäjän käyttäen userService-luokkaa.
+     *
+     * @param username luotavan käyttäjän käyttäjänimi
+     * @throws SQLException
+     */
     public void createNewUser(String username) throws SQLException {
         if (userService.usernameIsAvailable(userService.usernames(userDao.list()), username)) {
             userService.addNewUser(new User(userService.nextId(userDao.list()), username, false));
         }
-        
     }
-    
-    public Project getRandomProject(String projectCategory) throws SQLException {
-        if (projectCategory.equals("Kaikki")) {
-            
-            return projectService.getRandomProject(projectDao.list());
-        }
-        return projectService.getRandomProjectFromProjectCategory(projectDao.list(), projectCategoryService.getProjectCategory(projectCategory));
+
+    /**
+     * Arpoo projektin käyttäen ProjectService-luokkaa.
+     *
+     * @param projectCategory kategoria, jonka käyttäjä on valinnut
+     * @return arvottu projekti
+     * @throws SQLException
+     */
+    public Project getRandomProject(List<String> projectCategory) throws SQLException {
+        return projectService.getRandomProjectFromProjectCategory(projectCategoryService.stringListToProjectCategoryList(projectCategory));
     }
-    
-    public void selectProjectCategory() {
-        
-    }
-    
+
+    /**
+     * Luo merkkijono listan projektikategorioista käyttäen
+     * ProjectCategoryService luokkaa.
+     *
+     * @return merkkijonolista projektikategorioista
+     * @throws SQLException
+     */
     public ArrayList<String> projectCategories() throws SQLException {
-        return projectCategoryService.projectCategories(projectCategoryDao.list());
+        return projectCategoryService.projectCategoriesAsString(projectCategoryDao.list());
     }
-    
+
 }

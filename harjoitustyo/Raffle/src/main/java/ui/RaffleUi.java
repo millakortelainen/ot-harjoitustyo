@@ -23,6 +23,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -96,15 +97,27 @@ public class RaffleUi extends Application {
         options.add("Kaikki");
         ComboBox<String> comboBox = new ComboBox(options);
 
-        Label project = new Label("");
-        Button button = new Button("Arvo projektiaihe");
+        ArrayList<CheckBox> cbList = new ArrayList<>();
+        ArrayList<String> categories = raffleService.projectCategories();
+        for (String s : categories) {
+            cbList.add(new CheckBox(s));
+        }
+
+        Label pickedRandomProjectLabel = new Label("");
+        Button getRandomProjectButton = new Button("Arvo projektiaihe");
         GridPane userHasLoggedInLayout = new GridPane();
         userHasLoggedInLayout.setPrefSize(widthOfWindow, hightOfWindow);
         userHasLoggedInLayout.add(welcome, 0, 0);
-        userHasLoggedInLayout.add(project, 0, 4);
-        userHasLoggedInLayout.add(selectSubject, 0, 1);
-        userHasLoggedInLayout.add(button, 0, 3);
-        userHasLoggedInLayout.add(comboBox, 0, 2);
+
+        int n = 1;
+        for (CheckBox cbObj : cbList) {
+            userHasLoggedInLayout.add(cbObj, 0, n);
+            cbObj.setIndeterminate(false);
+            n++;
+        }
+
+        userHasLoggedInLayout.add(getRandomProjectButton, 0, n + 1);
+        userHasLoggedInLayout.add(pickedRandomProjectLabel, 0, n + 2);
         userHasLoggedInLayout.setAlignment(Pos.CENTER);
         Scene userHasLoggedInWindow = new Scene(userHasLoggedInLayout);
 
@@ -128,7 +141,7 @@ public class RaffleUi extends Application {
         });
 
         //from first window to user has logged in window
-        //  logging in
+        // logging in
         logInBtn.setOnAction((event) -> {
             try {
                 if (raffleService.userExist(usernameField.getText())) {
@@ -142,9 +155,17 @@ public class RaffleUi extends Application {
         });
 
         //get random new project
-        button.setOnAction((event) -> {
+        getRandomProjectButton.setOnAction((event) -> {
             try {
-                project.setText(raffleService.getRandomProject(comboBox.getValue()).toString());
+                List<String> selectedCategories = new ArrayList<>();
+                for (CheckBox cb : cbList) {
+                    if (cb.isSelected()) {
+                        selectedCategories.add(cb.getText());
+                    }
+                }
+//                System.out.println(selectedCategories.toString());
+
+                pickedRandomProjectLabel.setText(raffleService.getRandomProject(selectedCategories).toString());
             } catch (SQLException ex) {
                 Logger.getLogger(RaffleUi.class.getName()).log(Level.SEVERE, null, ex);
             }

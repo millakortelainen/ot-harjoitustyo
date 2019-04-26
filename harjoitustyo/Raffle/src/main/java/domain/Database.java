@@ -9,6 +9,7 @@ import domain.ProjectCategory;
 import domain.Project;
 import dao.ProjectCategoryDao;
 import dao.ProjectDao;
+import dao.UserDao;
 import java.sql.*;
 
 /**
@@ -16,29 +17,29 @@ import java.sql.*;
  * @author kortemil
  */
 public class Database {
-
+    
     private boolean testing;
-
+    
     public Database(boolean testing) throws SQLException {
         this.testing = testing;
         this.initTables();
     }
-
+    
     public Database() throws SQLException {
         this(false);
     }
-
+    
     public Connection getConnection() throws SQLException {
         if (testing) {
             return DriverManager.getConnection("jdbc:sqlite:test_projects.db");
         }
         return DriverManager.getConnection("jdbc:sqlite:projects.db");
     }
-
+    
     public void initTables() throws SQLException {
-
+        
         Statement stmt = this.getConnection().createStatement();
-
+        
         String sqlStatement = "CREATE TABLE IF NOT EXISTS  user (id integer primary key,"
                 + " username varchar(20), isModerator boolean);";
         String sqlStatement2 = "CREATE TABLE IF NOT EXISTS project (id integer primary key, subject "
@@ -49,32 +50,32 @@ public class Database {
         stmt.executeUpdate(sqlStatement);
         stmt.executeUpdate(sqlStatement2);
         stmt.executeUpdate(sqlStatement3);
-
+        
         ProjectCategoryDao categoryDao = new ProjectCategoryDao(this);
         ProjectDao pd = new ProjectDao(this);
-
+        
         if (categoryDao.list().isEmpty() && pd.list().isEmpty()) {
             this.resetDatabase();
         }
-
+        
         stmt.close();
         this.getConnection().close();
-
+        
     }
-
+    
     public void resetDatabase() throws SQLException {
-
+        
         String projectCategories = "Hyötyohjelma\n"
                 + "Reaaliaikainen peli\n"
                 + "Vuoropohjainen peli\n"
                 + "Korttipeli";
-
+        
         String[] categories = projectCategories.split("\n");
         ProjectCategoryDao categoryDao = new ProjectCategoryDao(this);
         for (int i = 0; i < categories.length; i++) {
             categoryDao.create(new ProjectCategory(i + 1, categories[i]));
         }
-
+        
         String hyotyohjelmat = "Tehtävägeneraattori, matematiikka \n"
                 + "Tehtävägeneraattori fysiikka \n"
                 + "Tehtävägeneraattori kemia\n"
@@ -88,7 +89,7 @@ public class Database {
                 + "Budjetointisovellus\n"
                 + "Opintojen seurantasovellus\n"
                 + "HTML WYSIWYG-editor (What you see is what you get)";
-
+        
         String reaaliaikaisetPelit = "Tetris\n"
                 + "Ping Pong\n"
                 + "Pacman\n"
@@ -96,7 +97,7 @@ public class Database {
                 + "Asteroids\n"
                 + "Space Invaders\n"
                 + "Yksinkertainen tasohyppypeli";
-
+        
         String vuoroPohjaisetPelit = "Tammi\n"
                 + "Yatzy\n"
                 + "Miinaharava\n"
@@ -106,12 +107,12 @@ public class Database {
                 + "Sudoku\n"
                 + "Muistipeli\n"
                 + "Ristinolla";
-
+        
         String korttipelit = "En Garde\n"
                 + "Pasianssi\n"
                 + "UNO\n"
                 + "Texas Hold'em";
-
+        
         String[] category1 = hyotyohjelmat.split("\n");
         String[] category2 = reaaliaikaisetPelit.split("\n");
         String[] category3 = vuoroPohjaisetPelit.split("\n");
@@ -122,7 +123,7 @@ public class Database {
             pd.create(new Project(id, category1[i], "", 1));
             id++;
         }
-
+        
         for (int i = 0; i < category2.length; i++) {
             pd.create(new Project(id, category2[i], "", 2));
             id++;
@@ -135,29 +136,32 @@ public class Database {
             pd.create(new Project(id, category4[i], "", 4));
             id++;
         }
-
+        
+        UserDao ud = new UserDao();
+        ud.create(new User(1, "admin", true));
+        
     }
-
+    
     public void removeTables() throws SQLException {
         Statement stmt = this.getConnection().createStatement();
         String sqlStatement = "DROP TABLE IF EXISTS Project;"
                 + "DROP TABLE IF EXISTS ProjectCategory;"
                 + "DROP TABLE IF EXISTS User;";
         stmt.executeUpdate(sqlStatement);
-
+        
         stmt.close();
         this.getConnection().close();
     }
-
+    
     public void emptyDatabase() throws SQLException {
         Statement stmt = this.getConnection().createStatement();
         String sqlStatement = "DELETE FROM Project;"
                 + "DELETE FROM ProjectCategory;"
                 + "DELETE FROM User;";
         stmt.executeUpdate(sqlStatement);
-
+        
         stmt.close();
         this.getConnection().close();
     }
-
+    
 }

@@ -10,16 +10,32 @@ import domain.User;
 
 public class UserDao implements Dao<User, Integer> {
 
-    Database database;
+    private Database database;
 
+    /**
+     * Konstruktori
+     *
+     * @param database käytössä oleva tietokanta
+     */
     public UserDao(Database database) {
         this.database = database;
     }
 
+    /**
+     * Konstruktori luo uuden tietokantayhteyden
+     *
+     * @throws SQLException
+     */
     public UserDao() throws SQLException {
         this(new Database());
     }
 
+    /**
+     * Luo uuden tietokanta rivin käyttäjästä
+     *
+     * @param user käyttäjä joka luodaan
+     * @throws SQLException
+     */
     @Override
     public void create(User user) throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO user"
@@ -33,6 +49,13 @@ public class UserDao implements Dao<User, Integer> {
         database.getConnection().close();
     }
 
+    /**
+     * Lukee käyttäjän tietokannasta
+     *
+     * @param key luettavan käyttäjän indeksi
+     * @return indeksissä oleva käyttäjä
+     * @throws SQLException
+     */
     @Override
     public User read(Integer key) throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM user WHERE id = ?");
@@ -63,6 +86,13 @@ public class UserDao implements Dao<User, Integer> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    /**
+     * Listaa kaikki käyttäjät.
+     * 
+     * @return kaikki tietokannan käyttäjät
+     * @throws SQLException 
+     */
     @Override
     public List<User> list() throws SQLException {
 

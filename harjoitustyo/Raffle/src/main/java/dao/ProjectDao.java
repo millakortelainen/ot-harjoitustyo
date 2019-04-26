@@ -17,7 +17,7 @@ import domain.Project;
  */
 public class ProjectDao implements Dao<Project, Integer> {
 
-    Database database;
+    private Database database;
 
     public ProjectDao(Database database) {
         this.database = database;

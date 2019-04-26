@@ -1,7 +1,8 @@
 # Arkkitehtuurikuvaus
 
 ## Rakenne
-
+Ohjelman rakenne noudattaa kolmitasoista kerrosarkitehtuuria ja koodin pakkausrakenne on seuraava:
+!(https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/pakkauskaavio.png)
 ## Käyttöliittymä
 
 ## Sovelluslogiikka

@@ -121,6 +121,9 @@ public class RaffleUi extends Application {
         userHasLoggedInLayout.setAlignment(Pos.CENTER);
         Scene userHasLoggedInWindow = new Scene(userHasLoggedInLayout);
 
+        //admin view
+        Button createNewProject = new Button("Luo uusi projekti");
+        
         //from first window to create new user window
         newUserBtn.setOnAction((event) -> {
             window.setScene(createNewUserWindow);

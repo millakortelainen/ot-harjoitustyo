@@ -15,4 +15,6 @@ Työaikakirjanpito
 |9.4.|5 |Käyttäjien lisääminen, arkkitehtuuri dokumentti|
 |11.4.|5|Laajennettii testikattavuutta ja kirjautuminen|
 |16.4.|6|Korjattiin testejä ja tietokantaa, projektien arvonta, pientä korjailua|
-Yhteensä: 39 h
+|25.4.|2|ui:n päivittämistä|
+|26.4.|10|Dokumentointia, ui:n päivittämistä|
+Yhteensä: 51 h

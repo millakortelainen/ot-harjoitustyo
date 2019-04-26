@@ -1,18 +1,51 @@
 # Arkkitehtuurikuvaus
 
 ## Rakenne
-Ohjelman rakenne noudattaa kolmitasoista kerrosarkitehtuuria ja koodin pakkausrakenne on seuraava:
+Ohjelman rakenne noudattaa nelitasoista kerrosarkitehtuuria ja koodin pakkausrakenne on seuraava:
 ![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/pakkauskaavio.png)
+Pakkaus Raffle.ui sisältää JavaFX:llä toteutetun käyttöliittymän, Raffle.service sisältää sovelluslogiikkaa, Raffle.dao tietojan pysyvyistallennuksesta vastaavan koodin ja Raffle.domain sisältää sovelluksen käsitteiden ilmentymät.
+
 ## Käyttöliittymä
+Käyttöliittymä sisältää kolme erillistä näkymää
+*kirjautuminen
+*uuden käyttäjän luominen
+*projektiaiheen arpominen
+
+jokainen näistä on teutettu omana Scene-oliona. Näkymistä yksi kerrallaan on näkyvänä eli sijoitettuna sovelluksen stageen. Käyttöliittymä on rakennettu ohjelmallisesti luokassa Raffle.ui.RaffleUi.
+
+Käyttöliittymä on pyritty eristämään sovelluslogiikasta, se ainoastaan kutsuu sopivin parametrein sovelluslogiikan toteuttavan olion raffleServicen metodeita.
+
+Kun käyttäjä on kirjautunut sisään, sovellus listaa tietokannasta löytyvät projektiaiheiden kategoriat.
 
 ## Sovelluslogiikka
+Datamalli???
+
+Sovelluksen toiminnallisuudessa vastaa pääasiassa RaffleServicen ainoa olio. RaffleService kuitenkin käyttää apunaan UserService, ProjectService ja ProjectCategoryService olioita. Nämä oliot ovat kaikki uniikkeja ja määritellään RaffleService määrittelee. RaffleService luokka tarjoaa kaikille käyttöliittymän toiminnolle oman metodin. Näitä ovat esimerkiksi
+*okei
+*nää on
+*on viel aika hajalla
+
+RaffleService luokka käyttäjiin ja projekteihin UserService, ProjectService ja ProjectCategoryService, jotka hoitavat kommunikoinnin tietokannan ja ohjelman välillä.
+
+Sovelluslogiikkaa voi kuvata seuraavalla luokkakaaviolla
+![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/luokkakaavio.png)
 
 ## Tietojen pysyväistallennus
+Pakkauksen Raffle.dao luokat UserDao, ProjectDao ja ProjectServiceDao huolehtivat tietojen tallettamiesta ja lukemisesta tietokannasta.
+
+Luokat noudattavat Data Access object-suunnittelumallia. Luokat toteuttavat Dao-rajapinnan.
+
+### Tietokanta
+Sovellus tallettaa käyttäjiä, projekteja ja projektien kategorioita tietokantaan.
+
+Kun sovellus käynnistetään, uusi tietokanta luodaan, jos sellaista ei ole vielä olemassa.
 
 ## Päätoiminnallisuudet
+Kuvataan seuraavaksi sovelluksen toiminta logiikkaa muutaman päätoiminnallisuuden osalta sekvenssikaavioina
+
+### projektin arpominen
+![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/sekvenssikaavio.png)
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
+tulossa..
 
-
-![alt text](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/luokkakaavio.png)
-![alt text](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/sekvenssikaavio.png)

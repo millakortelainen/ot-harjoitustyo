@@ -31,12 +31,12 @@ Sovelluksen loogisen datamallin muodostavat User, Project ja ProjectCategory. K�
 
 ![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/Untitled%20Diagram.png)
 
-Sovelluksen toiminnallisuudessa vastaa pääasiassa RaffleServicen ainoa olio. RaffleService kuitenkin käyttää apunaan UserService, ProjectService ja ProjectCategoryService olioita. Nämä oliot ovat kaikki uniikkeja ja määritellään RaffleService määrittelee. RaffleService luokka tarjoaa kaikille käyttöliittymän toiminnolle oman metodin. Näitä ovat esimerkiksi
-*okei
-*nää on
-*on viel aika hajalla
+Sovelluksen toiminnallisuudessa vastaa pääasiassa RaffleServicen ainoa olio. RaffleService kuitenkin käyttää apunaan UserService, ProjectService ja ProjectCategoryService olioita. Nämä oliot ovat kaikki uniikkeja ja määritellään RaffleServicen konstruktiossa. RaffleService luokka tarjoaa kaikille käyttöliittymän toiminnolle oman metodin. Näitä ovat esimerkiksi
+*adminLoginSuccessfull
+*createNewProject
+*initDatabase
 
-RaffleService luokka käyttäjiin ja projekteihin UserService, ProjectService ja ProjectCategoryService, jotka hoitavat kommunikoinnin tietokannan ja ohjelman välillä.
+RaffleService-luokka käyttää ohjelman ja tietokannan väliseen kommunikointiin projectService, projectCatgoryService ja userService- luokkia. Nämä luokat käyttävät omia Dao-rajapinnan periviä luokkiaan: UserDao, projectCategoryDao ja projectDao tietokannan ja ohjelman välisen kommunikoinnin toteuttamiseen.
 
 Sovelluslogiikkaa voi kuvata seuraavalla luokkakaaviolla
 ![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/luokkakaavio.png)
@@ -44,15 +44,24 @@ Sovelluslogiikkaa voi kuvata seuraavalla luokkakaaviolla
 ## Tietojen pysyväistallennus
 Pakkauksen Raffle.dao luokat UserDao, ProjectDao ja ProjectServiceDao huolehtivat tietojen tallettamiesta ja lukemisesta tietokannasta.
 
-Luokat noudattavat Data Access object-suunnittelumallia. Luokat toteuttavat Dao-rajapinnan.
+Luokat noudattavat Data Access object-suunnittelumallia. Luokat toteuttavat Dao-rajapinnan. Luokat on eristetty omien Service-luokkien taakse, joten ohjelman kokonaisuutta hallinnoiva luokka, ei käytä niitä suoraan.
+
+Sovelluksen testauksessa daoja hyödynnetään kuitenkin suoraan. Testauksessa on myös käytetty omaa tietokantaa.  
 
 ### Tietokanta
 Sovellus tallettaa käyttäjiä, projekteja ja projektien kategorioita tietokantaan.
 
-Kun sovellus käynnistetään, uusi tietokanta luodaan, jos sellaista ei ole vielä olemassa.
+Kun sovellus käynnistetään, uusi tietokanta luodaan, jos sellaista ei ole vielä olemassa paikallisesti. Tietokannan tauluihin alustetaan myös tarpeellista tietoa taulujen alustuksen yhteydessä. 
 
 ## Päätoiminnallisuudet
 Kuvataan seuraavaksi sovelluksen toiminta logiikkaa muutaman päätoiminnallisuuden osalta sekvenssikaavioina
+
+### käyttäjän kirjautuminen
+Kun krijautumiskenttään on annettu käyttäjätunnus "Milla" ja "Kirjaudu"-painiketta painetaan, etenee sovelluslogiikka seuraavasti:
+
+![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/sekvenssikaavioKirjautumisesta.png)
+
+Tapahtumankäsittelijä reagoi käyttäjän painaessa painiketta. Tällöin käyttöliittymä lukee tekstikenttään syötetyn merkkijonon ja antaa sen parametrina raffleService:n metodille .userLogInSuccesful(). RaffleService välittää parametrinaan saamansa merkkijonon edelleen userService:lle. UserService:n metodi .usernameExists() tarkistaa, onko kysyttä käyttäjänimeä olemassa. Metodi kutsuu userDao:n metodia .list(), joka listaa kaikki tietokannasta löytyvät käyttäjät. .userNameExists kutsuu tämän jälkeen userService:n .usernames()-metodia, joka muuttaa User-olioita sisältävän ArrayList:n merkkijono muotoiseksi listaksi. Tästä listasta tutkitaan .contains()-metodilla .usernameExists()-metodin parametrina saama merkkijono, joka oli haettu käyttäjänimi. Jos käyttäjänimi on olemassa, palauttaa metodi totuusarvon true, jonka metodi .userLogInSuccesful() palauttaa lopuksi käyttöliittymälle, joka vaihtaa kirjautumisen oonistuessa scenen käyttäjän sceneen.
 
 ### projektin arpominen
 ![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/sekvenssikaavio.png)

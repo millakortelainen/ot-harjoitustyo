@@ -22,14 +22,30 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
 
     private Database database;
 
+    /**
+     * Konstruktori, jolle voi asettaa haluamansa tietokanta yhteyden
+     *
+     * @param database
+     */
     public ProjectCategoryDao(Database database) {
         this.database = database;
     }
 
+    /**
+     * Konstruktori ilman parametreja luo oletus muotoisen tietokanta yhteyden
+     *
+     * @throws SQLException
+     */
     public ProjectCategoryDao() throws SQLException {
         this(new Database());
     }
 
+    /**
+     * luo uuden projekti kategorian tietokantaan
+     *
+     * @param category luotava projekti kategoria
+     * @throws SQLException
+     */
     @Override
     public void create(ProjectCategory category) throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO projectCategory"
@@ -42,6 +58,13 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
         database.getConnection().close();
     }
 
+    /**
+     * Lukee projekti kategorian tietokannasta
+     *
+     * @param key luettavan projekti kategorian id-numero
+     * @return haettu projekti kategoria
+     * @throws SQLException
+     */
     @Override
     public ProjectCategory read(Integer key) throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM projectCategory WHERE id = ?");
@@ -62,8 +85,12 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
         return pc;
     }
 
-
-
+    /**
+     * Listaa kaikki projekti kategoriat tietokannasta
+     *
+     * @return lista projekti kategorioista
+     * @throws SQLException
+     */
     @Override
     public List<ProjectCategory> list() throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM ProjectCategory");

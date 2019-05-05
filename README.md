@@ -15,7 +15,8 @@ Sovelluksella käyttäjä voi arpoa itselleen ohjelmistotekniikka-kurssin projek
 
 ## Releaset
 [Viikko 5](https://github.com/millakortelainen/ot-harjoitustyo/releases/tag/viikko5)
-[TULOSSA]()
+
+[Loppupalautus](https://github.com/millakortelainen/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Komentoriviotiminnot
 

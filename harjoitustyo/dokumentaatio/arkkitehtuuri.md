@@ -64,8 +64,18 @@ Kun krijautumiskenttään on annettu käyttäjätunnus "Milla" ja "Kirjaudu"-pai
 Tapahtumankäsittelijä reagoi käyttäjän painaessa painiketta. Tällöin käyttöliittymä lukee tekstikenttään syötetyn merkkijonon ja antaa sen parametrina raffleService:n metodille .userLogInSuccesful(). RaffleService välittää parametrinaan saamansa merkkijonon edelleen userService:lle. UserService:n metodi .usernameExists() tarkistaa, onko kysyttä käyttäjänimeä olemassa. Metodi kutsuu userDao:n metodia .list(), joka listaa kaikki tietokannasta löytyvät käyttäjät. .userNameExists kutsuu tämän jälkeen userService:n .usernames()-metodia, joka muuttaa User-olioita sisältävän ArrayList:n merkkijono muotoiseksi listaksi. Tästä listasta tutkitaan .contains()-metodilla .usernameExists()-metodin parametrina saama merkkijono, joka oli haettu käyttäjänimi. Jos käyttäjänimi on olemassa, palauttaa metodi totuusarvon true, jonka metodi .userLogInSuccesful() palauttaa lopuksi käyttöliittymälle, joka vaihtaa kirjautumisen oonistuessa scenen käyttäjän sceneen.
 
 ### projektin arpominen
-![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/sekvenssikaavio.png)
+Käyttäjä valitsee CheckBox:in "Korttipeli" ja painaa "Arvo projektiaihe":
+
+![](https://raw.githubusercontent.com/millakortelainen/ot-harjoitustyo/master/harjoitustyo/dokumentaatio/pics/sekvenssikaavioProjektinArpomisesta.png)
+
+Painikkeen tapahtumankäsittelijä reagoi jälleen käyttäjän klikkaukseen. Tällöin käyttöliittymä lukee käyttäjän valitsemat CheckBox valinnat ja antaa ne listana raffleservicen metodille .getRandomProject(). Ensimmäisenä metodi .getRandomProject() kääntää parametrinaan saamaansa merkkijonomuotoisen listan projectCategory-olioita sisältäväksi listaksi käyttäen apunaan ProjectCategoryService:n metodia .stringListToProjectCategoryList(). Metodi käy listan jokaisen alkoin läpi ja muuntaa ne yksi kerrallaan merkkijonosta Projectcategory-olioiksi käyttäen omaa metodiaan .getProjectCategoryFromString(). .getProjectCategoryFromString()-metodi käyttää projectCategoryDao-olion .list()-metodia hakiessaan olemassa olevia projekti kategorioita. Lopuksi projectCategory-olioita sisältävä ArrayList palautetaan raffleService-luokan metodille .getRandomProject(). 
+
+Tämän jälkeen kutsutaan projectService-olion metodia .getRandomProjectFromCategory() projectCategory-olioita sisältävällä ArrayList:lla. projectService hakee kategorioiden kaikki projektit listalle hyödyntäen projectCategoryService:ä ja projectDao:a. Lopuksi se sekoittaa listan, johon projektit talletetaan ja valitsee siitä ensimmäisen alkion. Tämän se palauttaa satunnaisena projektina raffleService:lle.
+
+### Muut toiminnallisuudet
+Kaikki toiminnallisuudet noudattavat tätä samaa tyyliä toiminnassaan. Ensin käyttöliittymän avulla kutsutaan raffleService-oliota, joka kutsuu tarpeen vaatiessa userService, projectService ja projectCategoryService olioita. Nämä Service-oliot voivat myös kutsua toinen toisiaan. Service-olioiden vastuulla on myös käyttää Dao-rajapinnan kautta tietokannan kanssa kommunikointi.
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
-tulossa..
+
+
 

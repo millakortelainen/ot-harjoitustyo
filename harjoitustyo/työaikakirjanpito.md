@@ -17,4 +17,7 @@ Työaikakirjanpito
 |16.4.|6|Korjattiin testejä ja tietokantaa, projektien arvonta, pientä korjailua|
 |25.4.|2|ui:n päivittämistä|
 |26.4.|10|Dokumentointia, ui:n päivittämistä|
-Yhteensä: 51 h
+|3.5|2|admin käyttäjän luominen|
+|4.5.|10|admin käyttäjän toiminnallisuudet|
+|5.5.|12|Kaikki loput toiminnalisuudet ja testit|
+Yhteensä: 75 h

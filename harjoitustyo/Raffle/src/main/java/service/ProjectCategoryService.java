@@ -15,7 +15,7 @@ import java.util.*;
  * @author kortemil
  */
 public class ProjectCategoryService {
-
+    
     private ProjectCategoryDao projectCategoryDao;
 
     /**
@@ -49,15 +49,15 @@ public class ProjectCategoryService {
      * @return projektikategoriat merkkijonoina
      */
     public ArrayList<String> projectCategoriesAsString(List<ProjectCategory> list) {
-
+        
         ArrayList<String> projectCategories = new ArrayList<>();
-
+        
         for (ProjectCategory projectCategory : list) {
             projectCategories.add(projectCategory.getCategory());
         }
-
+        
         return projectCategories;
-
+        
     }
 
     /**
@@ -90,5 +90,14 @@ public class ProjectCategoryService {
         }
         return categoryId;
     }
-
+    
+    public int nextId() throws SQLException {
+        return projectCategoryDao.list().size() + 1;
+    }
+    
+    public void createProjectCategory(String categoryName) throws SQLException {
+        projectCategoryDao.create(new ProjectCategory(this.nextId(), categoryName));
+        
+    }
+    
 }

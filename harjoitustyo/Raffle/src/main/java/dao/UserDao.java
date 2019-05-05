@@ -8,7 +8,7 @@ import java.util.List;
 import domain.Database;
 import domain.User;
 
-public class UserDao implements Dao<User, Integer> {
+public class UserDao implements Dao<User, String> {
 
     private Database database;
 
@@ -27,7 +27,7 @@ public class UserDao implements Dao<User, Integer> {
      * @throws SQLException
      */
     public UserDao() throws SQLException {
-        this(new Database());
+        this.database = new Database();
     }
 
     /**
@@ -39,11 +39,10 @@ public class UserDao implements Dao<User, Integer> {
     @Override
     public void create(User user) throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO user"
-                + " (id, username, isModerator)"
-                + " VALUES (?, ?, ?)");
-        stmt.setInt(1, user.getId());
-        stmt.setString(2, user.getUsername());
-        stmt.setBoolean(3, user.isModerator());
+                + " (username, isModerator)"
+                + " VALUES (?, ?)");
+        stmt.setString(1, user.getUsername());
+        stmt.setBoolean(2, user.isModerator());
         stmt.executeUpdate();
         stmt.close();
         database.getConnection().close();
@@ -57,16 +56,16 @@ public class UserDao implements Dao<User, Integer> {
      * @throws SQLException
      */
     @Override
-    public User read(Integer key) throws SQLException {
-        PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM user WHERE id = ?");
-        stmt.setInt(1, key);
+    public User read(String key) throws SQLException {
+        PreparedStatement stmt = database.getConnection().prepareStatement("SELECT * FROM user WHERE username = ?");
+        stmt.setString(1, key);
         ResultSet rs = stmt.executeQuery();
 
         if (!rs.next()) {
             return null;
         }
 
-        User u = new User(rs.getInt("id"), rs.getString("username"),
+        User u = new User(rs.getString("username"),
                 rs.getBoolean("isModerator"));
 
         stmt.close();
@@ -76,22 +75,11 @@ public class UserDao implements Dao<User, Integer> {
         return u;
     }
 
-    @Override
-    public User update(User object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void delete(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
     /**
      * Listaa kaikki käyttäjät.
-     * 
+     *
      * @return kaikki tietokannan käyttäjät
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public List<User> list() throws SQLException {
@@ -102,7 +90,7 @@ public class UserDao implements Dao<User, Integer> {
         List<User> users = new ArrayList<>();
 
         while (rs.next()) {
-            users.add(this.read(rs.getInt("id")));
+            users.add(this.read(rs.getString("username")));
         }
 
         stmt.close();

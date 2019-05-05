@@ -5,7 +5,7 @@
  */
 package domainTest;
 
-import domain.User;
+import domain.Project;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,22 +17,21 @@ import static org.junit.Assert.*;
  *
  * @author kortemil
  */
-public class UserTest {
+public class ProjectTest {
 
-    User user;
+    Project project;
 
-    public UserTest() {
-        user = new User("username", false);
+    public ProjectTest() {
+        project = new Project(1, "subject", "description", 1);
     }
 
     @Test
-    public void userIsCreated() {
-        assertTrue(user != null);
+    public void projectIsCreated() {
+        assertTrue(project != null);
     }
 
     @Test
     public void toStringIsRight() {
-        assertEquals(user.toString(), "username");
+        assertEquals(project.toString(), "subject");
     }
-
 }

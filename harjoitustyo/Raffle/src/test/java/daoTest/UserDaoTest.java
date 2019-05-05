@@ -24,16 +24,11 @@ import static org.junit.Assert.*;
 public class UserDaoTest {
 
     UserDao userDaoTest;
-    Database db;
+    Database testDatabase;
 
     public UserDaoTest() throws SQLException {
-        db = new Database(true);
-        userDaoTest = new UserDao(db);
-    }
-
-    @Before
-    public void setUp() throws SQLException {
-        db.emptyDatabase();
+        testDatabase = new Database(true);
+        userDaoTest = new UserDao(testDatabase);
     }
 
     @Test
@@ -43,25 +38,25 @@ public class UserDaoTest {
 
     @Test
     public void newUserIsAdded() throws SQLException {
-        User user = new User(1, "username", false);
-        userDaoTest.create(user);
-        User readUser = userDaoTest.read(1);
-        assertEquals(user, readUser);
+        testDatabase.emptyDatabase();
+        userDaoTest.create(new User("testUser", false));
+        assertEquals(userDaoTest.list().size(), 1);
+
     }
 
     @Test
-    public void projectsAreListed() throws SQLException {
+    public void usersAreListed() throws SQLException {
+        testDatabase.emptyDatabase();
         for (int i = 1; i <= 5; i++) {
-            userDaoTest.create(new User(i, "username", false));
+            userDaoTest.create(new User("username" + i, false));
         }
-        List<User> list = userDaoTest.list();
-        assertEquals(5, list.size());
+        assertEquals(userDaoTest.list().size(), 5);
     }
 
     @Test
     public void notAddedUserIsNotFound() throws SQLException {
-        User user = new User(1, "username", false);
-        assertEquals(null, userDaoTest.read(1));
+        testDatabase.emptyDatabase();
+        assertNull(userDaoTest.read("username"));
     }
 
     @Test
@@ -69,4 +64,5 @@ public class UserDaoTest {
         UserDao userDao = new UserDao();
         assertNotNull(userDao);
     }
+
 }

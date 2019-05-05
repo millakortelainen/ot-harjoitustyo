@@ -18,7 +18,6 @@ public class Project {
     private String description;
     private Integer projectCategoryId;
 
-    
     public Project(Integer id, String subject, String description, Integer projectCategoryId) {
         this.id = id;
         this.subject = subject;
@@ -30,32 +29,16 @@ public class Project {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getSubject() {
         return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Integer getProjectCategoryId() {
         return projectCategoryId;
-    }
-
-    public void setProjectCategoryId(Integer projectCategoryId) {
-        this.projectCategoryId = projectCategoryId;
     }
 
     @Override
@@ -63,15 +46,7 @@ public class Project {
         return this.subject;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        hash = 59 * hash + Objects.hashCode(this.subject);
-        hash = 59 * hash + Objects.hashCode(this.description);
-        hash = 59 * hash + Objects.hashCode(this.projectCategoryId);
-        return hash;
-    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -99,7 +74,5 @@ public class Project {
         }
         return true;
     }
-
- 
 
 }

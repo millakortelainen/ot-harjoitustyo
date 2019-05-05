@@ -22,10 +22,10 @@ import domain.Database;
  */
 public class DatabaseTest {
 
-    Database database;
+    Database testDatabase;
 
     public DatabaseTest() throws SQLException {
-        database = new Database(true);
+        testDatabase = new Database(true);
     }
 
     @Test
@@ -37,62 +37,63 @@ public class DatabaseTest {
 
     @Test
     public void getTestConnectionTest() throws SQLException {
-        Connection connection = database.getConnection();
+        Connection connection = testDatabase.getConnection();
         assertNotNull(connection);
     }
 
-    @Test
-    public void initTablesTest() throws SQLException {
-        database.emptyDatabase();
-        database.initTables();
-
-        String sqlStmtProject = "SELECT * FROM Project";
-        String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
-        String sqlStmtUser = "SELECT * FROM User";
-
-        PreparedStatement stmt = database.getConnection().prepareStatement(sqlStmtProject);
-        PreparedStatement stmt2 = database.getConnection().prepareStatement(sqlStmtProjectCategory);
-        PreparedStatement stmt3 = database.getConnection().prepareStatement(sqlStmtUser);
-        ResultSet rs = stmt.executeQuery();
-        ResultSet rs2 = stmt2.executeQuery();
-        ResultSet rs3 = stmt3.executeQuery();
-
-        List<Integer> existingStuff = new ArrayList<>();
-
-        while (rs.next()) {
-            existingStuff.add(rs.getInt("id"));
-        }
-        while (rs2.next()) {
-            existingStuff.add(rs2.getInt("id"));
-        }
-        while (rs3.next()) {
-            existingStuff.add(rs3.getInt("id"));
-        }
-
-        stmt.close();
-        rs.close();
-        rs2.close();
-        rs3.close();
-        assertFalse(existingStuff.isEmpty());
-
-    }
-
+//    @Test
+//    public void initTablesTest() throws SQLException {
+//        testDatabase.emptyDatabase();
+//        testDatabase.initTables();
+//
+//        String sqlStmtProject = "SELECT * FROM Project";
+//        String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
+//        String sqlStmtUser = "SELECT * FROM User";
+//
+//        PreparedStatement stmt = testDatabase.getConnection().prepareStatement(sqlStmtProject);
+//        PreparedStatement stmt2 = testDatabase.getConnection().prepareStatement(sqlStmtProjectCategory);
+//        PreparedStatement stmt3 = testDatabase.getConnection().prepareStatement(sqlStmtUser);
+//        ResultSet rs = stmt.executeQuery();
+//        ResultSet rs2 = stmt2.executeQuery();
+//        ResultSet rs3 = stmt3.executeQuery();
+//
+//        List<Integer> existingStuff = new ArrayList<>();
+//        List<String> existingStuff2 = new ArrayList<>();
+//
+//        while (rs.next()) {
+//            existingStuff.add(rs.getInt("id"));
+//        }
+//        while (rs2.next()) {
+//            existingStuff.add(rs2.getInt("id"));
+//        }
+//        while (rs3.next()) {
+//            existingStuff2.add(rs3.getString("username"));
+//        }
+//
+//        stmt.close();
+//        rs.close();
+//        rs2.close();
+//        rs3.close();
+//        assertFalse(existingStuff.isEmpty());
+//        assertFalse(existingStuff2.isEmpty());
+//
+//    }
     @Test
     public void emptyTestDatabase() throws SQLException {
-        database.emptyDatabase();
+        testDatabase.emptyDatabase();
         String sqlStmtProject = "SELECT * FROM Project";
         String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
         String sqlStmtUser = "SELECT * FROM User";
 
-        PreparedStatement stmt = database.getConnection().prepareStatement(sqlStmtProject);
-        PreparedStatement stmt2 = database.getConnection().prepareStatement(sqlStmtProjectCategory);
-        PreparedStatement stmt3 = database.getConnection().prepareStatement(sqlStmtUser);
+        PreparedStatement stmt = testDatabase.getConnection().prepareStatement(sqlStmtProject);
+        PreparedStatement stmt2 = testDatabase.getConnection().prepareStatement(sqlStmtProjectCategory);
+        PreparedStatement stmt3 = testDatabase.getConnection().prepareStatement(sqlStmtUser);
         ResultSet rs = stmt.executeQuery();
         ResultSet rs2 = stmt2.executeQuery();
         ResultSet rs3 = stmt3.executeQuery();
 
         List<Integer> existingStuff = new ArrayList<>();
-
+        List<String> existingStuff2 = new ArrayList<>();
         while (rs.next()) {
             existingStuff.add(rs.getInt("id"));
         }
@@ -100,7 +101,7 @@ public class DatabaseTest {
             existingStuff.add(rs2.getInt("id"));
         }
         while (rs3.next()) {
-            existingStuff.add(rs3.getInt("id"));
+            existingStuff2.add(rs3.getString("username"));
         }
 
         stmt.close();
@@ -108,20 +109,57 @@ public class DatabaseTest {
         rs2.close();
         rs3.close();
         assertTrue(existingStuff.isEmpty());
+        assertTrue(existingStuff2.isEmpty());
     }
 
+//    @Test
+//    public void resetDatabase() throws SQLException {
+//        testDatabase.emptyDatabase();
+//        testDatabase.resetDatabase();
+//
+//        String sqlStmtProject = "SELECT * FROM Project";
+//        String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
+//        String sqlStmtUser = "SELECT * FROM User";
+//
+//        PreparedStatement stmt = testDatabase.getConnection().prepareStatement(sqlStmtProject);
+//        PreparedStatement stmt2 = testDatabase.getConnection().prepareStatement(sqlStmtProjectCategory);
+//        PreparedStatement stmt3 = testDatabase.getConnection().prepareStatement(sqlStmtUser);
+//        ResultSet rs = stmt.executeQuery();
+//        ResultSet rs2 = stmt2.executeQuery();
+//        ResultSet rs3 = stmt3.executeQuery();
+//
+//        List<String> existingStuff = new ArrayList<>();
+//        List<String> existingStuff2 = new ArrayList<>();
+//        List<String> existingStuff3 = new ArrayList<>();
+//        while (rs.next()) {
+//            existingStuff.add(rs.getString("subject"));
+//        }
+//        while (rs2.next()) {
+//            existingStuff2.add(rs2.getString("category"));
+//        }
+//        while (rs3.next()) {
+//            existingStuff3.add(rs3.getString("username"));
+//        }
+//        stmt.close();
+//        rs.close();
+//        rs2.close();
+//        rs3.close();
+//        assertEquals(33, existingStuff.size());
+//        assertEquals(4, existingStuff2.size());
+//        assertEquals(1, existingStuff3.size());
+//
+//    }
     @Test
-    public void resetDatabase() throws SQLException {
-        database.emptyDatabase();
-        database.resetDatabase();
-
+    public void initEmptyDatabase() throws SQLException {
+        this.testDatabase.emptyDatabase();
+        this.testDatabase.initTables();
         String sqlStmtProject = "SELECT * FROM Project";
         String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
         String sqlStmtUser = "SELECT * FROM User";
 
-        PreparedStatement stmt = database.getConnection().prepareStatement(sqlStmtProject);
-        PreparedStatement stmt2 = database.getConnection().prepareStatement(sqlStmtProjectCategory);
-        PreparedStatement stmt3 = database.getConnection().prepareStatement(sqlStmtUser);
+        PreparedStatement stmt = testDatabase.getConnection().prepareStatement(sqlStmtProject);
+        PreparedStatement stmt2 = testDatabase.getConnection().prepareStatement(sqlStmtProjectCategory);
+        PreparedStatement stmt3 = testDatabase.getConnection().prepareStatement(sqlStmtUser);
         ResultSet rs = stmt.executeQuery();
         ResultSet rs2 = stmt2.executeQuery();
         ResultSet rs3 = stmt3.executeQuery();
@@ -138,15 +176,24 @@ public class DatabaseTest {
         while (rs3.next()) {
             existingStuff3.add(rs3.getString("username"));
         }
-//        System.out.println(existingStuff.hashCode());
         stmt.close();
         rs.close();
         rs2.close();
         rs3.close();
         assertEquals(33, existingStuff.size());
         assertEquals(4, existingStuff2.size());
-        assertEquals(0, existingStuff3.size());
+        assertEquals(1, existingStuff3.size());
+    }
 
+    public void tablesNeedReset() throws SQLException {
+        this.testDatabase.emptyDatabase();
+        assertTrue(this.testDatabase.tablesNeedReset());
+    }
+
+    public void tablesDoNotNeedReset() throws SQLException {
+        this.testDatabase.emptyDatabase();
+        this.testDatabase.resetDatabase();
+        assertFalse(this.testDatabase.tablesNeedReset());
     }
 
 }

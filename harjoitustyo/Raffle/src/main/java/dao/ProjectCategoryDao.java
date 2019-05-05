@@ -33,9 +33,10 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
     @Override
     public void create(ProjectCategory category) throws SQLException {
         PreparedStatement stmt = database.getConnection().prepareStatement("INSERT INTO projectCategory"
-                + " (category)"
-                + " VALUES (?)");
-        stmt.setString(1, category.getCategory());
+                + " (id, category)"
+                + " VALUES (?,?)");
+        stmt.setInt(1, category.getId());
+        stmt.setString(2, category.getCategory());
         stmt.executeUpdate();
         stmt.close();
         database.getConnection().close();
@@ -61,15 +62,7 @@ public class ProjectCategoryDao implements Dao<ProjectCategory, Integer> {
         return pc;
     }
 
-    @Override
-    public ProjectCategory update(ProjectCategory object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
-    @Override
-    public void delete(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public List<ProjectCategory> list() throws SQLException {

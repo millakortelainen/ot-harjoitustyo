@@ -24,16 +24,18 @@ import java.util.List;
 public class ProjectDaoTest {
 
     ProjectDao projectDaoTest;
-    Database db;
+    Database testDatabase;
 
     public ProjectDaoTest() throws SQLException {
-        db = new Database(true);
-        projectDaoTest = new ProjectDao(db);
+        testDatabase = new Database(true);
+        projectDaoTest = new ProjectDao(testDatabase);
+        testDatabase.initTables();
     }
 
-    @Before
-    public void setUp() throws SQLException {
-        db.emptyDatabase();
+    @Test
+    public void projectDaoIsCreatedWithoutParameters() throws SQLException {
+        ProjectDao projectDao = new ProjectDao();
+        assertNotNull(projectDao);
     }
 
     @Test
@@ -43,6 +45,7 @@ public class ProjectDaoTest {
 
     @Test
     public void newProjectIsAdded() throws SQLException {
+        testDatabase.emptyDatabase();
         Project project = new Project(1, "Test Project", "Description of test project", 1);
         projectDaoTest.create(project);
         Project readProject = projectDaoTest.read(1);
@@ -51,6 +54,7 @@ public class ProjectDaoTest {
 
     @Test
     public void projectsAreListed() throws SQLException {
+        testDatabase.emptyDatabase();
         for (int i = 1; i <= 5; i++) {
             projectDaoTest.create(new Project(i, "Test Project", "Description of test project", 1));
         }
@@ -61,8 +65,16 @@ public class ProjectDaoTest {
 
     @Test
     public void notAddedUserIsNotFound() throws SQLException {
-        Project project = new Project(1, "subject of project", "description of project", 1);
-        assertEquals(null, projectDaoTest.read(1));
+        testDatabase.emptyDatabase();
+        assertNull(projectDaoTest.read(1));
+    }
+
+    @Test
+    public void deleteProjectFromdDatabase() throws SQLException {
+        testDatabase.emptyDatabase();
+        projectDaoTest.create(new Project(1, "subject", "description", 1));
+        projectDaoTest.delete(1);
+        assertTrue(projectDaoTest.list().isEmpty());
     }
 
 }

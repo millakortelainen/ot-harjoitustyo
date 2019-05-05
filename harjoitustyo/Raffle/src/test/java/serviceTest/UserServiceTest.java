@@ -34,48 +34,42 @@ public class UserServiceTest {
 
     }
 
-    @Before
-    public void setUp() throws SQLException {
-        database.emptyDatabase();
+    @Test
+    public void userServiceIsCreated() {
+        assertNotNull(userService);
     }
 
     @Test
     public void newUserIsAdded() throws SQLException {
-        User user = new User(1, "newUsername", false);
-        userService.addNewUser(user);
-        assertNotNull(userDao.read(1));
+        database.emptyDatabase();
+        userService.addNewUser("username");
+        assertEquals(userDao.list().size(), 1);
     }
 
     @Test
-    public void usernameIsUnavailable() throws SQLException {
-        User user = new User(1, "newUsername", false);
-        userService.addNewUser(user);
-        assertFalse(userService.usernameIsAvailable(userService.usernames(userDao.list()), "newUsername"));
+    public void usernameIsAvailableBecauseThereIsNoUsers() throws SQLException {
+        database.emptyDatabase();
+        assertTrue(userService.usernameIsAvailable("username"));
     }
 
     @Test
-    public void usernameIsAvailableWhenListIsEmpty() throws SQLException {
-        assertTrue(userService.usernameIsAvailable(userService.usernames(userDao.list()), "newUsername"));
+    public void usernameIsNotAvailable() throws SQLException {
+        database.emptyDatabase();
+        userDao.create(new User("username", false));
+        assertFalse(userService.usernameIsAvailable("username"));
     }
 
     @Test
     public void usernameIsAvailable() throws SQLException {
-        User user = new User(1, "newUsername", false);
-        userService.addNewUser(user);
-        assertTrue(userService.usernameIsAvailable(userService.usernames(userDao.list()), "username"));
+        database.emptyDatabase();
+        userDao.create(new User("username", false));
+        assertTrue(userService.usernameIsAvailable("usernameTest"));
     }
 
     @Test
-    public void whenListIsEmptyGetNextId() throws SQLException {
-        assertEquals(1, userService.nextId(userDao.list()));
+    public void userIsAdmin() throws SQLException {
+        database.emptyDatabase();
+        userDao.create(new User("adminUser", true));
+        assertTrue(userService.userIsAdmin("adminUser"));
     }
-
-    @Test
-    public void getNextId() throws SQLException {
-        for (int i = 1; i <= 5; i++) {
-            userService.addNewUser(new User(i, "username", false));
-        }
-        assertEquals(6, userService.nextId(userDao.list()));
-    }
-
 }

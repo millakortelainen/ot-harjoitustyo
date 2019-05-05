@@ -19,14 +19,6 @@ public class ProjectCategory {
         this.category = category;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public int getId() {
         return id;
     }

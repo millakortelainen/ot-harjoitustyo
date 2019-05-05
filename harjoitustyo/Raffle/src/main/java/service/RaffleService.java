@@ -18,6 +18,7 @@ import domain.*;
  */
 public class RaffleService {
 
+    private Database database;
     private UserDao userDao;
     private UserService userService;
     private ProjectService projectService;
@@ -33,6 +34,7 @@ public class RaffleService {
      * @param projectCategoryDao
      */
     public RaffleService(UserDao userDao, ProjectDao projectDao, ProjectCategoryDao projectCategoryDao) {
+
         this.userDao = userDao;
         this.projectDao = projectDao;
         this.userService = new UserService(userDao);
@@ -42,27 +44,19 @@ public class RaffleService {
     }
 
     /**
-     * Tarkistaa onko käyttäjänimeä vastaama käyttäjä olemassa.
-     *
-     * @param username haettava käyttäjänimi
-     * @return totuusarvo sen mukaan onko käyttäjänimi käytössä
-     * @throws SQLException
-     */
-    public boolean userExist(String username) throws SQLException {
-        List<String> usernames = userService.usernames(userDao.list());
-        return usernames.contains(username);
-    }
-
-    /**
      * Luo uuden käyttäjän käyttäen userService-luokkaa.
      *
      * @param username luotavan käyttäjän käyttäjänimi
      * @throws SQLException
      */
     public void createNewUser(String username) throws SQLException {
-        if (userService.usernameIsAvailable(userService.usernames(userDao.list()), username)) {
-            userService.addNewUser(new User(userService.nextId(userDao.list()), username, false));
+        if (userService.usernameIsAvailable(username)) {
+            userService.addNewUser(username);
         }
+    }
+
+    public boolean userExist(String username) throws SQLException {
+        return userService.usernameExists(username);
     }
 
     /**
@@ -85,6 +79,39 @@ public class RaffleService {
      */
     public ArrayList<String> projectCategories() throws SQLException {
         return projectCategoryService.projectCategoriesAsString(projectCategoryDao.list());
+    }
+
+    public boolean userLogInSuccesful(String username) throws SQLException {
+        if (userService.usernameExists(username)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean adminLogInSuccesful(String username) throws SQLException {
+        return userService.usernameExists(username) && userService.userIsAdmin(username);
+
+    }
+
+    public void createNewProjectCategory(String projectCategory) throws SQLException {
+        projectCategoryService.createProjectCategory(projectCategory);
+    }
+
+    public void createNewProject(String project, String projectCategory) throws SQLException {
+        projectService.createNewProject(project, projectCategoryService.getProjectCategoryFromString(projectCategory));
+    }
+
+    public void deleteProject(String project) throws SQLException {
+        projectService.deleteProject(project);
+    }
+
+    public ArrayList<String> projects() throws SQLException {
+        return projectService.projectsAsStrings();
+    }
+
+    public void initDatabase() throws SQLException {
+        this.database = new Database();
+        this.database.initTables();
     }
 
 }

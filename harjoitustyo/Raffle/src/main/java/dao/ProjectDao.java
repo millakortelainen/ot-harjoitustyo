@@ -62,14 +62,11 @@ public class ProjectDao implements Dao<Project, Integer> {
         return p;
     }
 
-    @Override
-    public Project update(Project object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void delete(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        PreparedStatement stmt = database.getConnection().prepareStatement("DELETE FROM Project WHERE id = ?");
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+        database.getConnection().close();
     }
 
     @Override

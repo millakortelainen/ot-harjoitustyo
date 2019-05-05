@@ -20,43 +20,25 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    /**
-     * Lisää uuden käyttäjän ohjelmalle.
-     *
-     * @param user lisättävä käyttäjä
-     * @throws SQLException käyttää dao:a tietokannan muokkaamiseen
-     */
-    public void addNewUser(User user) throws SQLException {
-        userDao.create(user);
+    public void addNewUser(String username) throws SQLException {
+        userDao.create(new User(username, false));
     }
 
     /**
      * Tarkastaa onko haluttu käyttäjänimi vapaana.
      *
-     * @param usernameList käyttäjänimet merkkijono listana
      * @param username käyttäjänimi
      * @return onko käyttäjänimi vapaana
      */
-    public boolean usernameIsAvailable(List<String> usernameList, String username) {
-        if (usernameList.isEmpty()) {
-            return true;
-        } else if (!usernameList.contains(username)) {
-            return true;
-        }
-        return false;
-    }
+    public boolean usernameIsAvailable(String username) throws SQLException {
+        List<String> usernames = this.usernames(userDao.list());
 
-    /**
-     * Palauttaa seuraavan vapaan id-numeron käyttäjälle.
-     *
-     * @param list lista olemassaolevista käyttäjistä
-     * @return palauttaa uuden id-numeron
-     */
-    public int nextId(List<User> list) {
-        if (list.isEmpty()) {
-            return 2;
+        if (usernames.isEmpty()) {
+            return true;
+        } else if (usernames.contains(username)) {
+            return false;
         }
-        return list.size() + 1;
+        return true;
     }
 
     /**
@@ -71,6 +53,29 @@ public class UserService {
             usernames.add(u.getUsername());
         }
         return usernames;
+    }
+
+    /**
+     * Tarkistaa onko käyttäjänimi olemassa tietokannassa
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     */
+    public boolean usernameExists(String username) throws SQLException {
+        List<String> usernames = this.usernames(userDao.list());
+        return usernames.contains(username);
+    }
+
+    /**
+     * Tarkistaa onko käyttäjänimi admin käyttäjän.
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     */
+    public boolean userIsAdmin(String username) throws SQLException {
+        return userDao.read(username).isModerator();
     }
 
 }

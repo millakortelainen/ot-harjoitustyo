@@ -66,4 +66,33 @@ public class ProjectService {
         return projectsInCategory;
     }
 
+    public int nextId() throws SQLException {
+        return projectDao.list().size() + 1;
+    }
+
+    public void createNewProject(String projectname, ProjectCategory pc) throws SQLException {
+        projectDao.create(new Project(this.nextId(), projectname, "", pc.getId()));
+    }
+
+    public ArrayList<String> projectsAsStrings() throws SQLException {
+        ArrayList<String> projects = new ArrayList<>();
+        for (Project p : projectDao.list()) {
+            projects.add(p.getSubject());
+        }
+        return projects;
+    }
+
+    public void deleteProject(String project) throws SQLException {
+        projectDao.delete(this.projectId(project));
+    }
+
+    public int projectId(String project) throws SQLException {
+        for (Project p : projectDao.list()) {
+            if (p.getSubject().equals(project)) {
+                return p.getId();
+            }
+        }
+        return -1;
+    }
+
 }

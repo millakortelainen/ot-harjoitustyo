@@ -3,15 +3,19 @@
 Sovelluksella käyttäjä voi arpoa itselleen ohjelmistotekniikka-kurssin projektiaiheen.
 
 ## Dokumentaatio
+[Käyttöohje](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/dokumentaatio/kayttoohje.md)
 
-[Määrittelydokumentti](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/maarittelydokumentti.md)
+[Vaatimusmäärittely](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/maarittelydokumentti.md)
 
 [Työaikakirjanpito](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/ty%C3%B6aikakirjanpito.md)
 
 [Arkkitehtuurikuvaus](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/dokumentaatio/arkkitehtuuri.md)
 
+[Testausdokumentti](https://github.com/millakortelainen/ot-harjoitustyo/blob/master/harjoitustyo/dokumentaatio/Testausdokumentti.md)
+
 ## Releaset
 [Viikko 5](https://github.com/millakortelainen/ot-harjoitustyo/releases/tag/viikko5)
+[TULOSSA]()
 
 ## Komentoriviotiminnot
 
@@ -34,7 +38,12 @@ mvn package
 generoi hakemistoon target suoritettavan jar-tiedoston Raffle-1.0-SNAPSHOT.jar
 
 ### JavaDoc
-coming
+JavaDoc generoidaan komennolla
+
+mvn javadoc:javadoc
+
+JavaDocia voi tarkastella avaamalla selaimella tiedosto target/site/apidocs/index.html
+
 ### Checkstyle
 Tiedostoon checkstyle.xml määrittelemät tarkistukset suoritetaan komennolla
 

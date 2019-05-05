@@ -17,7 +17,10 @@ Testaamatta jäit tilanteen, joita työntekijä ei kerennyt toteuttamaan.
 Sovelluksen järjestelmä testaus on suoritettu manuaalisesti.
 
 ### Asennus ja konfigurointi
-Sovellus on testattu Linux-ympäristössä ja todettu toimivaksi.
+Sovellus on testattu Linux-ympäristössä ja todettu toimivaksi käyttöohjeistakin löytyvällä tavalla.
+
+### Toiminnallisuudet
+Virheisiin ei ole varauduttu kovinkaan hyvin. Testit ovat lähinnä testanneet toiminnallisuutta oletetulla tavalla.
 
 ## Sovellukseen jääneet laatuongelmat
-* testit ei ehkä toimi jos ei ole luotu tietokantoja jo valmiiksi
+* testeihin jäi bugina se, että ne eivät todennäköisesti mene läpi, ellei ohjelma ole kerran itsenäisesti pyörinyt ja luonut siten tietokantoja itselleen

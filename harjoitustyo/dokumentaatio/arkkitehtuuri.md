@@ -76,6 +76,7 @@ Tämän jälkeen kutsutaan projectService-olion metodia .getRandomProjectFromCat
 Kaikki toiminnallisuudet noudattavat tätä samaa tyyliä toiminnassaan. Ensin käyttöliittymän avulla kutsutaan raffleService-oliota, joka kutsuu tarpeen vaatiessa userService, projectService ja projectCategoryService olioita. Nämä Service-oliot voivat myös kutsua toinen toisiaan. Service-olioiden vastuulla on myös käyttää Dao-rajapinnan kautta tietokannan kanssa kommunikointi.
 
 ## Ohjelman rakenteeseen jääneet heikkoudet
+Ohjelmassa on paljon olioiden muuntamista muodosta toiseen, osittain Dao-rakenteen käytön takia.
 
 
 

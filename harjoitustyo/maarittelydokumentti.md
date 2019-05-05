@@ -14,7 +14,7 @@ Ennen kirjautumista
    * Käyttäjä voi kirjautua sisään
        - Sisäänkirjautuminen tapahtuu käyttäjätunnuksella
    * Käyttäjä voi luoda uuden tunnuksen
-       * Tunnuksen tulee olla uniikki ja vähintään 3 merkkiä pitkä
+       * Tunnuksen tulee olla uniikki
        * Moderaattori tunnukset annetaan erikseen, niitä ei voi luoda
 
 Kirjautumisen jälkeen
@@ -22,13 +22,10 @@ Kirjautumisen jälkeen
        * Käyttäjä näkee listan mahdollisista aihealueista
        * Käyttäjä voi valita yhden tai usean aihealueen
        * Käyttäjä voi arpoa aiheen projektityölle
-       * Käyttäjä voi kirjautua ulos
 
    * Moderaattori:
        * Moderaattori voi lisätä uuden projektiaiheen
        * Moderaattori voi poistaa aiheen.
-       * Moderaattori voi myös arpoa aiheen työlleen samallatavalla kuin käyttäjä
-       * Moderaattori voi kirjautua ulos. 
        
        ## Kehitysideoita
        

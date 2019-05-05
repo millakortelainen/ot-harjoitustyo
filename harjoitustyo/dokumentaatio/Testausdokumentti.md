@@ -20,4 +20,4 @@ Sovelluksen järjestelmä testaus on suoritettu manuaalisesti.
 Sovellus on testattu Linux-ympäristössä ja todettu toimivaksi.
 
 ## Sovellukseen jääneet laatuongelmat
-*testit ei ehkä toimi jos ei ole luotu tietokantoja jo valmiiksi
+* testit ei ehkä toimi jos ei ole luotu tietokantoja jo valmiiksi

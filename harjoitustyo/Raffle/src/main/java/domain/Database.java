@@ -22,14 +22,32 @@ public class Database {
 
     private boolean testing;
 
+    /**
+     * Konstruktori parametrilla
+     *
+     * @param testing true-jos kyseessä on testaus
+     * @throws SQLException
+     */
     public Database(boolean testing) throws SQLException {
         this.testing = testing;
     }
 
+    /**
+     * Konstruktori ilman parametria asettaa testauksen automaattisesti pois
+     * päältä
+     *
+     * @throws SQLException
+     */
     public Database() throws SQLException {
         this.testing = false;
     }
 
+    /**
+     * hakee yhteyden tietokantaan
+     *
+     * @return yhteys tietokantaan
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException {
         if (testing) {
             return DriverManager.getConnection("jdbc:sqlite:test_projects.db");
@@ -37,6 +55,11 @@ public class Database {
         return DriverManager.getConnection("jdbc:sqlite:projects.db");
     }
 
+    /**
+     * alustaa tietokannan ja sen taulut, jos tarvetta
+     *
+     * @throws SQLException
+     */
     public void initTables() throws SQLException {
 
         Statement stmt = this.getConnection().createStatement();
@@ -60,6 +83,11 @@ public class Database {
 
     }
 
+    /**
+     * alustaa tietokannan taulut
+     *
+     * @throws SQLException
+     */
     public void resetDatabase() throws SQLException {
 
         String projectCategories = "Hyötyohjelma\n"
@@ -139,6 +167,12 @@ public class Database {
 
     }
 
+    /**
+     * tarkistaa onko tietokannan taulut tyhjiä
+     *
+     * @return true, jos taulut ovat tyhjiä
+     * @throws SQLException
+     */
     public boolean tablesNeedReset() throws SQLException {
         Statement stmt = this.getConnection().createStatement();
         String sqlStatement4 = "SELECT * FROM Project;";
@@ -150,17 +184,11 @@ public class Database {
         return projects.isEmpty();
     }
 
-//    public void removeTables() throws SQLException {
-//        Statement stmt = this.getConnection().createStatement();
-//        String sqlStatement = "DROP TABLE IF EXISTS Project;"
-//                + "DROP TABLE IF EXISTS ProjectCategory;"
-//                + "DROP TABLE IF EXISTS User;";
-//        stmt.executeUpdate(sqlStatement);
-//
-//        stmt.close();
-//        this.getConnection().close();
-//    }
-
+    /**
+     * tyhjentää tietokanta taulut
+     *
+     * @throws SQLException
+     */
     public void emptyDatabase() throws SQLException {
         Statement stmt = this.getConnection().createStatement();
         String sqlStatement = "DELETE FROM Project;"

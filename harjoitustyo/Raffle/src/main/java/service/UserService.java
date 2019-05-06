@@ -19,6 +19,13 @@ public class UserService {
     public UserService(UserDao userDao) {
         this.userDao = userDao;
     }
+    
+    /**
+     * Lisää uuden käyttäjän
+     * 
+     * @param username lisättävä käyttäjä merkkijonona
+     * @throws SQLException 
+     */
 
     public void addNewUser(String username) throws SQLException {
         userDao.create(new User(username, false));

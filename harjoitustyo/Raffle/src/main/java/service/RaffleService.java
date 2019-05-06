@@ -81,6 +81,13 @@ public class RaffleService {
         return projectCategoryService.projectCategoriesAsString(projectCategoryDao.list());
     }
 
+    /**
+     *käyttäjän kirjautuminen järjestelmään
+     * 
+     * @param username käyttäjänimi merkkijonona
+     * @return onko käyttäjätietokannassa
+     * @throws SQLException
+     */
     public boolean userLogInSuccesful(String username) throws SQLException {
         if (userService.usernameExists(username)) {
             return true;
@@ -88,27 +95,64 @@ public class RaffleService {
         return false;
     }
 
+    /**
+     * adminin kirjautuminen järjestelmään
+     *
+     * @param username käyttäjänimi merkkijonona
+     * @return onko parametrina saatu käyttäjä admin
+     * @throws SQLException
+     */
     public boolean adminLogInSuccesful(String username) throws SQLException {
         return userService.usernameExists(username) && userService.userIsAdmin(username);
 
     }
 
+    /**
+     * luo uuden projekti kategorian
+     *
+     * @param projectCategory uusi projekti kategoria merkkijonona
+     * @throws SQLException
+     */
     public void createNewProjectCategory(String projectCategory) throws SQLException {
         projectCategoryService.createProjectCategory(projectCategory);
     }
 
+    /**
+     * luo uuden projektin tietokantaan
+     *
+     * @param project luotava projekti merkkijonona
+     * @param projectCategory luotavan projektin kategoria merkkijonona
+     * @throws SQLException
+     */
     public void createNewProject(String project, String projectCategory) throws SQLException {
         projectService.createNewProject(project, projectCategoryService.getProjectCategoryFromString(projectCategory));
     }
 
+    /**
+     * Poistaa projektin tietokannasta
+     *
+     * @param project poistettava projekti
+     * @throws SQLException
+     */
     public void deleteProject(String project) throws SQLException {
         projectService.deleteProject(project);
     }
 
+    /**
+     * Listaa kaikki tietokannan projektit merkkijonoina
+     *
+     * @return tietokannan projektit merkkijonona
+     * @throws SQLException
+     */
     public ArrayList<String> projects() throws SQLException {
         return projectService.projectsAsStrings();
     }
 
+    /**
+     * Alustaa tietokannan
+     *
+     * @throws SQLException
+     */
     public void initDatabase() throws SQLException {
         this.database = new Database();
         this.database.initTables();

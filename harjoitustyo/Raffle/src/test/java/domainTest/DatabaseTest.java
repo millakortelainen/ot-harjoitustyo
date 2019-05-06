@@ -41,43 +41,6 @@ public class DatabaseTest {
         assertNotNull(connection);
     }
 
-//    @Test
-//    public void initTablesTest() throws SQLException {
-//        testDatabase.emptyDatabase();
-//        testDatabase.initTables();
-//
-//        String sqlStmtProject = "SELECT * FROM Project";
-//        String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
-//        String sqlStmtUser = "SELECT * FROM User";
-//
-//        PreparedStatement stmt = testDatabase.getConnection().prepareStatement(sqlStmtProject);
-//        PreparedStatement stmt2 = testDatabase.getConnection().prepareStatement(sqlStmtProjectCategory);
-//        PreparedStatement stmt3 = testDatabase.getConnection().prepareStatement(sqlStmtUser);
-//        ResultSet rs = stmt.executeQuery();
-//        ResultSet rs2 = stmt2.executeQuery();
-//        ResultSet rs3 = stmt3.executeQuery();
-//
-//        List<Integer> existingStuff = new ArrayList<>();
-//        List<String> existingStuff2 = new ArrayList<>();
-//
-//        while (rs.next()) {
-//            existingStuff.add(rs.getInt("id"));
-//        }
-//        while (rs2.next()) {
-//            existingStuff.add(rs2.getInt("id"));
-//        }
-//        while (rs3.next()) {
-//            existingStuff2.add(rs3.getString("username"));
-//        }
-//
-//        stmt.close();
-//        rs.close();
-//        rs2.close();
-//        rs3.close();
-//        assertFalse(existingStuff.isEmpty());
-//        assertFalse(existingStuff2.isEmpty());
-//
-//    }
     @Test
     public void emptyTestDatabase() throws SQLException {
         testDatabase.emptyDatabase();
@@ -112,43 +75,6 @@ public class DatabaseTest {
         assertTrue(existingStuff2.isEmpty());
     }
 
-//    @Test
-//    public void resetDatabase() throws SQLException {
-//        testDatabase.emptyDatabase();
-//        testDatabase.resetDatabase();
-//
-//        String sqlStmtProject = "SELECT * FROM Project";
-//        String sqlStmtProjectCategory = "SELECT * FROM ProjectCategory";
-//        String sqlStmtUser = "SELECT * FROM User";
-//
-//        PreparedStatement stmt = testDatabase.getConnection().prepareStatement(sqlStmtProject);
-//        PreparedStatement stmt2 = testDatabase.getConnection().prepareStatement(sqlStmtProjectCategory);
-//        PreparedStatement stmt3 = testDatabase.getConnection().prepareStatement(sqlStmtUser);
-//        ResultSet rs = stmt.executeQuery();
-//        ResultSet rs2 = stmt2.executeQuery();
-//        ResultSet rs3 = stmt3.executeQuery();
-//
-//        List<String> existingStuff = new ArrayList<>();
-//        List<String> existingStuff2 = new ArrayList<>();
-//        List<String> existingStuff3 = new ArrayList<>();
-//        while (rs.next()) {
-//            existingStuff.add(rs.getString("subject"));
-//        }
-//        while (rs2.next()) {
-//            existingStuff2.add(rs2.getString("category"));
-//        }
-//        while (rs3.next()) {
-//            existingStuff3.add(rs3.getString("username"));
-//        }
-//        stmt.close();
-//        rs.close();
-//        rs2.close();
-//        rs3.close();
-//        assertEquals(33, existingStuff.size());
-//        assertEquals(4, existingStuff2.size());
-//        assertEquals(1, existingStuff3.size());
-//
-//    }
     @Test
     public void initEmptyDatabase() throws SQLException {
         this.testDatabase.emptyDatabase();

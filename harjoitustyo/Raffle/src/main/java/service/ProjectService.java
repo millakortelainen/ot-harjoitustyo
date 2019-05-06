@@ -66,14 +66,33 @@ public class ProjectService {
         return projectsInCategory;
     }
 
+    /**
+     * seuraava vapaa id-tunnus projektille
+     *
+     * @return vapaana oleva id-tunnus
+     * @throws SQLException
+     */
     public int nextId() throws SQLException {
         return projectDao.list().size() + 1;
     }
 
+    /**
+     * luo uuden projektin tietokantaan
+     *
+     * @param projectname projektin nimi merkkijonona
+     * @param pc projektin kategoria merkkijonona
+     * @throws SQLException
+     */
     public void createNewProject(String projectname, ProjectCategory pc) throws SQLException {
         projectDao.create(new Project(this.nextId(), projectname, "", pc.getId()));
     }
 
+    /**
+     * hakee tietokannan projektit merkkijono listana
+     *
+     * @return projektit merkkijonolistana
+     * @throws SQLException
+     */
     public ArrayList<String> projectsAsStrings() throws SQLException {
         ArrayList<String> projects = new ArrayList<>();
         for (Project p : projectDao.list()) {
@@ -82,10 +101,23 @@ public class ProjectService {
         return projects;
     }
 
+    /**
+     * poistaa projektin tietokannasta
+     *
+     * @param project poistettava projekti merkkijonona
+     * @throws SQLException
+     */
     public void deleteProject(String project) throws SQLException {
         projectDao.delete(this.projectId(project));
     }
 
+    /**
+     * hakee merkkijono tyypisen projektin id-tunnuksen
+     *
+     * @param project projekti merkkijonona
+     * @return id tunnus tai -1 jos käyttäjää ei ole
+     * @throws SQLException
+     */
     public int projectId(String project) throws SQLException {
         for (Project p : projectDao.list()) {
             if (p.getSubject().equals(project)) {
